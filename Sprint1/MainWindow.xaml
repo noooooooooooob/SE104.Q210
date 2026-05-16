@@ -75,7 +75,13 @@
                 
                 <Label Grid.Column="0" Content="Ngày sinh" VerticalAlignment="Center" FontSize="24"/>
                 <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Margin="8,0,8,0">
-                    <DatePicker Height="40" FontSize="24" BorderThickness="0" Language="vi-VN"/>
+                    <DatePicker Height="40" FontSize="24" BorderThickness="0" Language="vi-VN">
+                        <DatePicker.Resources>
+                            <Style TargetType="DatePickerTextBox">
+                                <Setter Property="IsReadOnly" Value="True"/>
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
                 </Border>
                 <Label Grid.Column="2" Content="Tuổi khách hàng" VerticalAlignment="Center" FontSize="24" Margin="70,0,0,0"/>
                 <Border Grid.Column="3" Background="#E0E0E0" Height="40" CornerRadius="5">
@@ -126,13 +132,35 @@
                 <!-- CCCD -->
                 <Label Grid.Row="0" Grid.Column="0" Content="CCCD" VerticalAlignment="Center" FontSize="24"/>
                 <Border Grid.Row="0" Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="3" CornerRadius="5" Margin="0,0,0,10">
-                    <TextBox Height="40" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Height="40" BorderThickness="0" FontSize="24" 
+                 VerticalContentAlignment="Center" 
+                 PreviewTextInput="NumberOnly_PreviewTextInput"/>
+                        <TextBlock Grid.Column="1" Text="Nhập từ 0 - 9" 
+                   Foreground="Gray" FontStyle="Italic" FontSize="16"
+                   VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    </Grid>
                 </Border>
 
                 <!-- SĐT -->
                 <Label Grid.Row="1" Grid.Column="0" Content="SĐT" VerticalAlignment="Center" FontSize="24"/>
                 <Border Grid.Row="1" Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="3" CornerRadius="5" Margin="0,0,0,10">
-                    <TextBox Height="40" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Height="40" BorderThickness="0" FontSize="24" 
+                 VerticalContentAlignment="Center" 
+                 PreviewTextInput="NumberOnly_PreviewTextInput"/>
+                        <TextBlock Grid.Column="1" Text="Nhập từ 0 - 9" 
+                   Foreground="Gray" FontStyle="Italic" FontSize="16"
+                   VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    </Grid>
                 </Border>
 
                 <!-- Email -->
@@ -168,7 +196,13 @@
                 <StackPanel Grid.Column="2">
                     <Label Content="Ngày lập thẻ" FontSize="24"/>
                     <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Margin="8,0,8,0">
-                        <DatePicker Height="40" FontSize="24" BorderThickness="0" Language="vi-VN"/>
+                        <DatePicker Height="40" FontSize="24" BorderThickness="0" Language="vi-VN">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
                     </Border>
                 </StackPanel>
 

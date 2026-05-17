@@ -7,25 +7,15 @@
     <Border BorderBrush="Black" BorderThickness="1" Margin="10" CornerRadius="8" ClipToBounds="True">
         <Grid>
             <Grid.RowDefinitions>
-                <!-- 0 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 1 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 2 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 3 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 4 -->
                 <RowDefinition Height="20"/>
-                <!-- 5 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 6 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 7 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 8 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 9 -->
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
@@ -37,9 +27,7 @@
                        Margin="20,10,0,10"/>
 
             <!-- Đường kẻ ngang -->
-            <Border Grid.Row="1"
-                    BorderBrush="#AAAAAA"
-                    BorderThickness="0,1,0,0"/>
+            <Border Grid.Row="1" BorderBrush="#AAAAAA" BorderThickness="0,1,0,0"/>
 
             <!-- Họ và tên + Mã khách hàng -->
             <Grid Grid.Row="2" Margin="12,12,12,6">
@@ -49,15 +37,14 @@
                     <ColumnDefinition Width="265"/>
                     <ColumnDefinition Width="210"/>
                 </Grid.ColumnDefinitions>
-                
-                
+
                 <Label Grid.Column="0" Content="Họ và tên" VerticalAlignment="Center" FontSize="24"/>
                 <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Margin="8,0,8,0">
-                    <TextBox Height="35" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="txtHoTen" Height="35" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center"/>
                 </Border>
                 <Label Grid.Column="2" Content="Mã khách hàng" VerticalAlignment="Center" FontSize="24" Margin="70,0,0,0"/>
                 <Border Grid.Column="3" Background="#E0E0E0" Height="40" CornerRadius="5">
-                    <TextBlock Text="&lt;Giá trị phát sinh&gt;" Foreground="Gray"
+                    <TextBlock x:Name="txtMaKH" Text="&lt;Giá trị phát sinh&gt;" Foreground="Gray"
                                FontStyle="Italic" FontSize="24"
                                VerticalAlignment="Center" Margin="4,0"/>
                 </Border>
@@ -71,11 +58,11 @@
                     <ColumnDefinition Width="265"/>
                     <ColumnDefinition Width="210"/>
                 </Grid.ColumnDefinitions>
-                
-                
+
                 <Label Grid.Column="0" Content="Ngày sinh" VerticalAlignment="Center" FontSize="24"/>
                 <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Margin="8,0,8,0">
-                    <DatePicker Height="40" FontSize="24" BorderThickness="0" Language="vi-VN">
+                    <DatePicker x:Name="dpNgaySinh" Height="40" FontSize="24" BorderThickness="0" Language="vi-VN"
+                                SelectedDateChanged="dpNgaySinh_SelectedDateChanged">
                         <DatePicker.Resources>
                             <Style TargetType="DatePickerTextBox">
                                 <Setter Property="IsReadOnly" Value="True"/>
@@ -85,13 +72,11 @@
                 </Border>
                 <Label Grid.Column="2" Content="Tuổi khách hàng" VerticalAlignment="Center" FontSize="24" Margin="70,0,0,0"/>
                 <Border Grid.Column="3" Background="#E0E0E0" Height="40" CornerRadius="5">
-                    <TextBlock Text="&lt;Giá trị xử lý&gt;" Foreground="Gray"
+                    <TextBlock x:Name="txtTuoi" Text="&lt;Giá trị xử lý&gt;" Foreground="Gray"
                                FontStyle="Italic" FontSize="24"
                                VerticalAlignment="Center" Margin="4,0"/>
                 </Border>
             </Grid>
-
-
 
             <!-- Quy định độ tuổi -->
             <Grid Grid.Row="5" Margin="12,6,12,6">
@@ -101,20 +86,20 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Tối thiểu -->
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="Quy định độ tuổi tối thiểu" FontSize="24" Margin="0,0,0,4"/>
-                    <Border Background="#E0E0E0" Height="40" CornerRadius="5"/>
+                    <Border Background="#E0E0E0" Height="40" CornerRadius="5">
+                        <TextBlock x:Name="txtTuoiToiThieu" FontSize="24" VerticalAlignment="Center" Margin="8,0"/>
+                    </Border>
                 </StackPanel>
 
-                <!-- Tối đa -->
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="Quy định độ tuổi tối đa" FontSize="24" Margin="0,0,0,4"/>
-                    <Border Background="#E0E0E0" Height="40" CornerRadius="5"/>
+                    <Border Background="#E0E0E0" Height="40" CornerRadius="5">
+                        <TextBlock x:Name="txtTuoiToiDa" FontSize="24" VerticalAlignment="Center" Margin="8,0"/>
+                    </Border>
                 </StackPanel>
             </Grid>
-
-
 
             <!-- CCCD, SĐT, Email, Địa chỉ -->
             <Grid Grid.Row="6" Margin="12,6,12,6">
@@ -137,12 +122,12 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" Height="40" BorderThickness="0" FontSize="24" 
-                 VerticalContentAlignment="Center" 
-                 PreviewTextInput="NumberOnly_PreviewTextInput"/>
-                        <TextBlock Grid.Column="1" Text="Nhập từ 0 - 9" 
-                   Foreground="Gray" FontStyle="Italic" FontSize="16"
-                   VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox x:Name="txtCCCD" Grid.Column="0" Height="40" BorderThickness="0" FontSize="24"
+                                 VerticalContentAlignment="Center"
+                                 PreviewTextInput="NumberOnly_PreviewTextInput"/>
+                        <TextBlock Grid.Column="1" Text="Nhập từ 0 - 9"
+                                   Foreground="Gray" FontStyle="Italic" FontSize="16"
+                                   VerticalAlignment="Center" Margin="0,0,8,0"/>
                     </Grid>
                 </Border>
 
@@ -154,29 +139,27 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" Height="40" BorderThickness="0" FontSize="24" 
-                 VerticalContentAlignment="Center" 
-                 PreviewTextInput="NumberOnly_PreviewTextInput"/>
-                        <TextBlock Grid.Column="1" Text="Nhập từ 0 - 9" 
-                   Foreground="Gray" FontStyle="Italic" FontSize="16"
-                   VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox x:Name="txtSDT" Grid.Column="0" Height="40" BorderThickness="0" FontSize="24"
+                                 VerticalContentAlignment="Center"
+                                 PreviewTextInput="NumberOnly_PreviewTextInput"/>
+                        <TextBlock Grid.Column="1" Text="Nhập từ 0 - 9"
+                                   Foreground="Gray" FontStyle="Italic" FontSize="16"
+                                   VerticalAlignment="Center" Margin="0,0,8,0"/>
                     </Grid>
                 </Border>
 
                 <!-- Email -->
                 <Label Grid.Row="2" Grid.Column="0" Content="Email" VerticalAlignment="Center" FontSize="24"/>
                 <Border Grid.Row="2" Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="3" CornerRadius="5" Margin="0,0,0,10">
-                    <TextBox Height="40" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="txtEmail" Height="40" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center"/>
                 </Border>
 
                 <!-- Địa chỉ -->
                 <Label Grid.Row="3" Grid.Column="0" Content="Địa chỉ" VerticalAlignment="Center" FontSize="24"/>
                 <Border Grid.Row="3" Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="3" CornerRadius="5">
-                    <TextBox Height="40" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="txtDiaChi" Height="40" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center"/>
                 </Border>
             </Grid>
-
-
 
             <!-- Tên loại KH + Ngày lập thẻ + Ngày hết hạn -->
             <Grid Grid.Row="7" Margin="12,6,12,6">
@@ -190,16 +173,14 @@
 
                 <StackPanel Grid.Column="0">
                     <Label Content="Tên Loại khách hàng" FontSize="24"/>
-                    <ComboBox Height="40" FontSize="24" VerticalContentAlignment="Center">
-                        <ComboBoxItem Content="X"/>
-                        <ComboBoxItem Content="Y"/>
-                    </ComboBox>
+                    <ComboBox x:Name="cboLoaiKH" Height="40" FontSize="24" VerticalContentAlignment="Center"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="2">
                     <Label Content="Ngày lập thẻ" FontSize="24"/>
-                    <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Margin="8,0,8,0">
-                        <DatePicker Height="40" FontSize="24" BorderThickness="0" Language="vi-VN">
+                    <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Margin="8,0,8,0">
+                        <DatePicker x:Name="dpNgayLapThe" Height="40" FontSize="24" BorderThickness="0" Language="vi-VN"
+                                    SelectedDateChanged="dpNgayLapThe_SelectedDateChanged">
                             <DatePicker.Resources>
                                 <Style TargetType="DatePickerTextBox">
                                     <Setter Property="IsReadOnly" Value="True"/>
@@ -212,20 +193,13 @@
                 <StackPanel Grid.Column="4">
                     <Label Content="Ngày hết hạn" FontSize="24"/>
                     <Border Background="#E0E0E0" Height="40" CornerRadius="5">
-                        <TextBlock Text="" FontSize="24" VerticalAlignment="Center" Margin="4,0"/>
+                        <TextBlock x:Name="txtNgayHetHan" FontSize="24" VerticalAlignment="Center" Margin="8,0"/>
                     </Border>
                 </StackPanel>
             </Grid>
 
-
-
             <!-- Đường kẻ ngang -->
-            <Border Grid.Row="8"
-                    BorderBrush="#AAAAAA"
-                    BorderThickness="0,1,0,0"/>
-
-
-
+            <Border Grid.Row="8" BorderBrush="#AAAAAA" BorderThickness="0,1,0,0"/>
 
             <!-- Nút bấm -->
             <Grid Grid.Row="9" Margin="12,10,12,12">
@@ -235,31 +209,22 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0" Content="Tiếp nhận khách hàng"
-            Height="45" Width="250"
-            HorizontalAlignment="Left"
-            FontSize="20"
-            Background="#00BCD4"
-            Foreground="White"
-            BorderThickness="1"/>
+                        Height="45" Width="250"
+                        HorizontalAlignment="Left"
+                        FontSize="20"
+                        Background="#00BCD4"
+                        Foreground="White"
+                        BorderThickness="1"
+                        Click="BtnTiepNhan_Click"/>
 
                 <Button Grid.Column="1" Content="Thoát"
-            Height="45" Width="120"
-            FontSize="20"
-            Background="#00BCD4"
-            Foreground="White"
-            BorderThickness="1"/>
+                        Height="45" Width="120"
+                        FontSize="20"
+                        Background="#00BCD4"
+                        Foreground="White"
+                        BorderThickness="1"
+                        Click="BtnThoat_Click"/>
             </Grid>
-
-
-
-
-
-
-
-
-
-
-
 
         </Grid>
     </Border>

@@ -190,7 +190,10 @@
 
                 <StackPanel Grid.Column="0">
                     <Label Content="Tên Loại khách hàng" FontSize="24"/>
-                    <ComboBox Height="40" FontSize="24" VerticalContentAlignment="Center"/>
+                    <ComboBox Height="40" FontSize="24" VerticalContentAlignment="Center">
+                        <ComboBoxItem Content="X"/>
+                        <ComboBoxItem Content="Y"/>
+                    </ComboBox>
                 </StackPanel>
 
                 <StackPanel Grid.Column="2">

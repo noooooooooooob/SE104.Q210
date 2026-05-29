@@ -14,13 +14,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace Sprint1
 {
     public partial class MainWindow : Window
     {
-        private string connectionString = "Server=.;Database=Sprint1;Trusted_Connection=True;TrustServerCertificate=True;";
+        private string connectionString = "Server=localhost;Database=Sprint1;Uid=root;Pwd=12345;";
 
         public MainWindow()
         {
@@ -31,17 +31,17 @@ namespace Sprint1
         // ========== LOAD DỮ LIỆU KHI MỞ MÀN HÌNH ==========
         private void LoadData()
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
 
                 // 1. Phát sinh mã khách hàng
-                var cmdMa = new SqlCommand("SELECT ISNULL(MAX(MaKhachHang), 0) + 1 FROM KHACHHANG", conn);
-                int maMoi = (int)cmdMa.ExecuteScalar();
+                var cmdMa = new MySqlCommand("SELECT IFNULL(MAX(MaKhachHang), 0) + 1 FROM KHACHHANG", conn);
+                int maMoi = Convert.ToInt32(cmdMa.ExecuteScalar());
                 txtMaKH.Text = "KH" + maMoi.ToString("D3");
 
                 // 2. Load danh sách loại khách hàng vào ComboBox
-                var cmdLoai = new SqlCommand("SELECT MaLoaiKhachHang, TenLoaiKhachHang FROM LOAIKHACHHANG", conn);
+                var cmdLoai = new MySqlCommand("SELECT MaLoaiKhachHang, TenLoaiKhachHang FROM LOAIKHACHHANG", conn);
                 var reader = cmdLoai.ExecuteReader();
                 cboLoaiKH.Items.Clear();
                 while (reader.Read())
@@ -55,7 +55,7 @@ namespace Sprint1
                 reader.Close();
 
                 // 3. Load quy định tuổi và thời hạn thẻ từ THAMSO
-                var cmdThamSo = new SqlCommand("SELECT DoTuoiToiThieu, DoTuoiToiDa FROM THAMSO", conn);
+                var cmdThamSo = new MySqlCommand("SELECT DoTuoiToiThieu, DoTuoiToiDa FROM THAMSO", conn);
                 var readerTS = cmdThamSo.ExecuteReader();
                 if (readerTS.Read())
                 {
@@ -119,10 +119,10 @@ namespace Sprint1
         {
             if (dpNgayLapThe.SelectedDate == null) return;
 
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                var cmd = new SqlCommand("SELECT ThoiHanThe FROM THAMSO", conn);
+                var cmd = new MySqlCommand("SELECT ThoiHanThe FROM THAMSO", conn);
                 int thoiHan = (int)cmd.ExecuteScalar();
                 var ngayHetHan = dpNgayLapThe.SelectedDate.Value.AddMonths(thoiHan);
                 txtNgayHetHan.Text = ngayHetHan.ToString("dd/MM/yyyy");
@@ -161,15 +161,15 @@ namespace Sprint1
             int maLoaiKH = (int)selectedItem.Tag;
 
             // Tính ngày hết hạn
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                var cmdThoiHan = new SqlCommand("SELECT ThoiHanThe FROM THAMSO", conn);
+                var cmdThoiHan = new MySqlCommand("SELECT ThoiHanThe FROM THAMSO", conn);
                 int thoiHan = (int)cmdThoiHan.ExecuteScalar();
                 DateTime ngayHetHan = dpNgayLapThe.SelectedDate.Value.AddMonths(thoiHan);
 
                 // Lưu xuống DB
-                var cmd = new SqlCommand(@"
+                var cmd = new MySqlCommand(@"
                     INSERT INTO KHACHHANG 
                     (HoTen, CCCD, Email, DiaChi, NgaySinh, SDT, NgayLapThe, NgayHetHan, MaLoaiKhachHang)
                     VALUES 

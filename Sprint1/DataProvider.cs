@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace Sprint1
 {
@@ -21,11 +21,11 @@ namespace Sprint1
             }
         }
 
-        private string connectionString = "Server=.;Database=Sprint1;Trusted_Connection=True;TrustServerCertificate=True;";
+        private string connectionString = "Server=localhost;Database=Sprint1;Uid=root;Pwd=12345;";
 
-        public SqlConnection GetConnection()
+        public MySqlConnection GetConnection()
         {
-            return new SqlConnection(connectionString);
+            return new MySqlConnection(connectionString);
         }
     }
 }

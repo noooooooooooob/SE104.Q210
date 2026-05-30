@@ -21,7 +21,7 @@ namespace Sprint1
             }
         }
 
-        private string connectionString = "Server=localhost;Database=Sprint1;Uid=root;Pwd=12345;";
+        private string connectionString = "Server=192.168.192.247;Database=Sprint1;Uid=root;Pwd=12345;";
 
         public MySqlConnection GetConnection()
         {

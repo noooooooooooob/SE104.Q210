@@ -16,11 +16,13 @@ using System.Windows.Shapes;
 
 using MySql.Data.MySqlClient;
 
+//192.168.192.247
+
 namespace Sprint1
 {
     public partial class MainWindow : Window
     {
-        private string connectionString = "Server=localhost;Database=Sprint1;Uid=root;Pwd=12345;";
+        private string connectionString = "Server=192.168.192.247;Database=Sprint1;Uid=root;Pwd=12345;";
 
         public MainWindow()
         {

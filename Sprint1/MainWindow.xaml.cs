@@ -22,7 +22,7 @@ namespace Sprint1
 {
     public partial class MainWindow : Window
     {
-        private string connectionString = "Server=192.168.192.247;Database=Sprint1;Uid=root;Pwd=12345;";
+        private string connectionString = "Server=zephyr.proxy.rlwy.net;Port=58816;Database=railway;Uid=root;Pwd=gYvXqmHUpZYSPXozPtWHmcxTPfArOoyJ;";
 
         public MainWindow()
         {

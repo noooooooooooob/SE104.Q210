@@ -1,4 +1,4 @@
-﻿<Window x:Class="Sprint2.MainWindow"
+<Window x:Class="Sprint2.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,9 @@
         Title="Lập Phiếu Nhập Game"
         Height="700"
         Width="1000"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Segoe UI"
+        FontSize="14">
 
     <Grid Margin="15">
 
@@ -19,14 +21,14 @@
 
         <!-- THÔNG TIN NHẬP GAME -->
         <GroupBox Header="Thông Tin Game"
-                  FontSize="14"
-                  Padding="10">
+                  FontSize="16"
+                  Padding="10"
+                  FontWeight="Bold">
 
             <Grid>
-
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="180"/> <!-- label -->
+                    <ColumnDefinition Width="*"/>   <!-- textbox -->
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
@@ -39,123 +41,259 @@
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           VerticalAlignment="Center"
-                           Text="Ngày nhập:"/>
-
+                <!-- Ngày nhập -->
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           Text="Ngày nhập:"
+                           HorizontalAlignment="Right"
+                           Margin="0,0,10,0"/>
                 <DatePicker x:Name="dpNgayNhap"
-                            Grid.Row="0"
-                            Grid.Column="1"/>
+                            Grid.Row="0" Grid.Column="1"
+                            HorizontalAlignment="Stretch"/>
 
-                <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           VerticalAlignment="Center"
-                           Text="Tên Game:"/>
-
+                <!-- Tên Game -->
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           Text="Tên Game:"
+                           HorizontalAlignment="Right"
+                           Margin="0,0,10,0"/>
                 <TextBox x:Name="txtTenGame"
-                         Grid.Row="1"
-                         Grid.Column="1"/>
+                         Grid.Row="1" Grid.Column="1"
+                         HorizontalAlignment="Stretch"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Left"/>
 
-                <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           VerticalAlignment="Center"
-                           Text="Loại Game:"/>
-
+                <!-- Loại Game -->
+                <TextBlock Grid.Row="2" Grid.Column="0"
+                           Text="Loại Game:"
+                           HorizontalAlignment="Right"
+                           Margin="0,0,10,0"/>
                 <ComboBox x:Name="cbLoaiGame"
-                          Grid.Row="2"
-                          Grid.Column="1"/>
+                          Grid.Row="2" Grid.Column="1"
+                          HorizontalAlignment="Stretch"
+                          VerticalContentAlignment="Center"
+                          HorizontalContentAlignment="Left"/>
 
-                <TextBlock Grid.Row="3"
-                           Grid.Column="0"
-                           VerticalAlignment="Center"
-                           Text="Nhà phát hành:"/>
-
+                <!-- Nhà phát hành -->
+                <TextBlock Grid.Row="3" Grid.Column="0"
+                           Text="Nhà phát hành:"
+                           HorizontalAlignment="Right"
+                           Margin="0,0,10,0"/>
                 <TextBox x:Name="txtNhaPhatHanh"
-                         Grid.Row="3"
-                         Grid.Column="1"/>
+                         Grid.Row="3" Grid.Column="1"
+                         HorizontalAlignment="Stretch"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Left"/>
 
-                <TextBlock Grid.Row="4"
-                           Grid.Column="0"
-                           VerticalAlignment="Center"
-                           Text="Năm phát hành:"/>
-
+                <!-- Năm phát hành -->
+                <TextBlock Grid.Row="4" Grid.Column="0"
+                           Text="Năm phát hành:"
+                           HorizontalAlignment="Right"
+                           Margin="0,0,10,0"/>
                 <TextBox x:Name="txtNamPhatHanh"
-                         Grid.Row="4"
-                         Grid.Column="1"/>
+                         Grid.Row="4" Grid.Column="1"
+                         HorizontalAlignment="Stretch"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Left"/>
 
-                <TextBlock Grid.Row="5"
-                           Grid.Column="0"
-                           VerticalAlignment="Center"
-                           Text="Trị giá:"/>
-
+                <!-- Trị giá -->
+                <TextBlock Grid.Row="5" Grid.Column="0"
+                           Text="Trị giá:"
+                           HorizontalAlignment="Right"
+                           Margin="0,0,10,0"/>
                 <TextBox x:Name="txtTriGia"
-                         Grid.Row="5"
-                         Grid.Column="1"/>
+                         Grid.Row="5" Grid.Column="1"
+                         HorizontalAlignment="Stretch"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Left"/>
 
+                <!-- Nút thêm game -->
                 <Button x:Name="btnThemGame"
-                        Grid.Row="6"
-                        Grid.Column="1"
-                        Width="150"
-                        Height="35"
+                        Grid.Row="6" Grid.Column="1"
+                        Width="150" Height="35"
+                        Background="#005A9E" Foreground="White"
                         HorizontalAlignment="Left"
-                        Content="Thêm Game"
+                        Content=" + Thêm Game"
                         Click="BtnThemGame_Click"/>
-
             </Grid>
-
         </GroupBox>
 
         <!-- DANH SÁCH GAME -->
-        <DataGrid x:Name="dgGames"
-                  Grid.Row="1"
-                  Margin="0,15,0,15"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False">
+    <!-- DANH SÁCH GAME -->
+<Border Grid.Row="1"
+        Margin="0,20,0,20"
+        Background="White"
+        CornerRadius="12"
+        BorderBrush="#D9E2EC"
+        BorderThickness="1"
+        Padding="12">
 
-            <DataGrid.Columns>
+    <DataGrid x:Name="dgGames"
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              HeadersVisibility="Column"
+              GridLinesVisibility="Horizontal"
+              RowHeight="48"
+              ColumnHeaderHeight="50"
+              FontSize="15"
+              BorderThickness="0"
+              SelectionMode="Single"
+              SelectionUnit="FullRow"
+              AlternatingRowBackground="#F8FAFC">
 
-                <DataGridTextColumn Header="Tên Game"
-                                    Binding="{Binding TenGame}"
-                                    Width="*"/>
+        <!-- HEADER -->
+        <DataGrid.ColumnHeaderStyle>
+            <Style TargetType="DataGridColumnHeader">
+                <Setter Property="Background" Value="#EEF2F7"/>
+                <Setter Property="Foreground" Value="#0F172A"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="HorizontalContentAlignment"
+                        Value="Center"/>
+                <Setter Property="VerticalContentAlignment"
+                        Value="Center"/>
+                <Setter Property="BorderThickness"
+                        Value="0"/>
+            </Style>
+        </DataGrid.ColumnHeaderStyle>
 
-                <DataGridTextColumn Header="Loại Game"
-                                    Binding="{Binding LoaiGame}"
-                                    Width="120"/>
+        <!-- CELL -->
+        <DataGrid.CellStyle>
+            <Style TargetType="DataGridCell">
+                <Setter Property="BorderThickness"
+                        Value="0"/>
+                <Setter Property="Padding"
+                        Value="10"/>
+                <Setter Property="TextBlock.TextAlignment"
+                        Value="Center"/>
+                <Setter Property="VerticalContentAlignment"
+                        Value="Center"/>
+            </Style>
+        </DataGrid.CellStyle>
 
-                <DataGridTextColumn Header="Nhà Phát Hành"
-                                    Binding="{Binding NhaPhatHanh}"
-                                    Width="180"/>
+        <!-- ROW -->
+        <DataGrid.RowStyle>
+            <Style TargetType="DataGridRow">
+                <Setter Property="HorizontalContentAlignment"
+                        Value="Stretch"/>
 
-                <DataGridTextColumn Header="Năm Phát Hành"
-                                    Binding="{Binding NamPhatHanh}"
-                                    Width="120"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver"
+                             Value="True">
+                        <Setter Property="Background"
+                                Value="#EAF4FF"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </DataGrid.RowStyle>
 
-                <DataGridTextColumn Header="Trị Giá"
-                                    Binding="{Binding TriGia}"
-                                    Width="120"/>
+        <!-- COLUMNS -->
+        <DataGrid.Columns>
 
-            </DataGrid.Columns>
+            <!-- Tên Game -->
+            <DataGridTextColumn Header="Tên Game"
+                                Binding="{Binding TenGame}"
+                                Width="2*">
 
-        </DataGrid>
+                <DataGridTextColumn.ElementStyle>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="TextAlignment"
+                                Value="Center"/>
+                        <Setter Property="HorizontalAlignment"
+                                Value="Center"/>
+                        <Setter Property="VerticalAlignment"
+                                Value="Center"/>
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
+            </DataGridTextColumn>
 
+            <!-- Loại Game -->
+            <DataGridTextColumn Header="Loại Game"
+                                Binding="{Binding LoaiGame}"
+                                Width="1.5*">
+
+                <DataGridTextColumn.ElementStyle>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="TextAlignment"
+                                Value="Center"/>
+                        <Setter Property="HorizontalAlignment"
+                                Value="Center"/>
+                        <Setter Property="VerticalAlignment"
+                                Value="Center"/>
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
+            </DataGridTextColumn>
+
+            <!-- Nhà Phát Hành -->
+            <DataGridTextColumn Header="Nhà Phát Hành"
+                                Binding="{Binding NhaPhatHanh}"
+                                Width="2*">
+
+                <DataGridTextColumn.ElementStyle>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="TextAlignment"
+                                Value="Center"/>
+                        <Setter Property="HorizontalAlignment"
+                                Value="Center"/>
+                        <Setter Property="VerticalAlignment"
+                                Value="Center"/>
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
+            </DataGridTextColumn>
+
+            <!-- Năm Phát Hành -->
+            <DataGridTextColumn Header="Năm Phát Hành"
+                                Binding="{Binding NamPhatHanh}"
+                                Width="1.4*">
+
+                <DataGridTextColumn.ElementStyle>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="TextAlignment"
+                                Value="Center"/>
+                        <Setter Property="HorizontalAlignment"
+                                Value="Center"/>
+                        <Setter Property="VerticalAlignment"
+                                Value="Center"/>
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
+            </DataGridTextColumn>
+
+            <!-- Trị Giá -->
+            <DataGridTextColumn Header="Trị Giá"
+                                Binding="{Binding TriGia}"
+                                Width="1.3*">
+
+                <DataGridTextColumn.ElementStyle>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="TextAlignment"
+                                Value="Center"/>
+                        <Setter Property="HorizontalAlignment"
+                                Value="Center"/>
+                        <Setter Property="VerticalAlignment"
+                                Value="Center"/>
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
+            </DataGridTextColumn>
+
+        </DataGrid.Columns>
+
+    </DataGrid>
+</Border>
         <!-- PHẦN CUỐI -->
-        <StackPanel Grid.Row="2">
-
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
             <TextBlock x:Name="txtTongGiaTri"
                        FontSize="16"
                        FontWeight="Bold"
-                       Margin="0,0,0,10"
+                       Margin="0,0,20,0"
+                       VerticalAlignment="Center"
                        Text="Tổng giá trị: 0"/>
-
             <Button x:Name="btnLapPhieu"
-                    Width="200"
-                    Height="40"
-                    Content="Lập Phiếu Nhập"
+                    Grid.Column="3"
+                    Width="280"
+                    Height="58"
+                    VerticalAlignment="Center"
+                    Background="#005A9E"
+                    Content="📄  Lập Phiếu Nhập"
                     Click="BtnLapPhieu_Click"/>
-
         </StackPanel>
 
     </Grid>
-
 </Window>

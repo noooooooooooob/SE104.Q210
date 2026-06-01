@@ -14,6 +14,7 @@ namespace Sprint2a
         public class RowData
         {
             public string STT { get; set; }
+            public string MaCTPN { get; set; }  // thêm dòng này
         }
 
         // ==================== FIELDS ====================
@@ -34,11 +35,6 @@ namespace Sprint2a
             {
                 conn.Open();
 
-                // Phát sinh Mã CT phiếu nhập
-                var cmdCTPN = new MySqlCommand(
-                    "SELECT IFNULL(MAX(MaCTPN), 0) + 1 FROM CTPHIEUNHAP", conn);
-                int maCTPNMoi = Convert.ToInt32(cmdCTPN.ExecuteScalar());
-                txtMaCTPN.Text = "CTPN" + maCTPNMoi.ToString("D3");
 
                 // Phát sinh Mã phiếu nhập
                 var cmdPN = new MySqlCommand(
@@ -64,11 +60,22 @@ namespace Sprint2a
 
             // Init bảng 4 dòng + dòng "+"
             rows.Clear();
-            rows.Add(new RowData { STT = "1" });
-            rows.Add(new RowData { STT = "2" });
-            rows.Add(new RowData { STT = "3" });
-            rows.Add(new RowData { STT = "4" });
-            rows.Add(new RowData { STT = "+" });
+
+            // Đọc mã CT phiếu nhập hiện tại từ DB
+            int maCTPNBase;
+            using (var conn2 = DataProvider.Instance.GetConnection())
+            {
+                conn2.Open();
+                var cmd2 = new MySqlCommand(
+                    "SELECT IFNULL(MAX(MaCTPN), 0) + 1 FROM CTPHIEUNHAP", conn2);
+                maCTPNBase = Convert.ToInt32(cmd2.ExecuteScalar());
+            }
+
+            rows.Add(new RowData { STT = "1", MaCTPN = "CTPN" + (maCTPNBase).ToString("D3") });
+            rows.Add(new RowData { STT = "2", MaCTPN = "CTPN" + (maCTPNBase + 1).ToString("D3") });
+            rows.Add(new RowData { STT = "3", MaCTPN = "CTPN" + (maCTPNBase + 2).ToString("D3") });
+            rows.Add(new RowData { STT = "4", MaCTPN = "CTPN" + (maCTPNBase + 3).ToString("D3") });
+            rows.Add(new RowData { STT = "+", MaCTPN = "" });
             dgGames.ItemsSource = rows;
         }
 
@@ -110,9 +117,26 @@ namespace Sprint2a
 
             if (btn.Content.ToString() == "+")
             {
+                // Lấy mã CT tiếp theo
+                int nextMa;
+                using (var conn = DataProvider.Instance.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new MySqlCommand(
+                        "SELECT IFNULL(MAX(MaCTPN), 0) + 1 FROM CTPHIEUNHAP", conn);
+                    nextMa = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                // Cộng thêm số dòng hiện có (trừ dòng "+")
+                int offset = rows.Count - 1; // số dòng thực tế
+                nextMa += offset;
+
                 rows.RemoveAt(rows.Count - 1);
-                rows.Add(new RowData { STT = (rows.Count + 1).ToString() });
-                rows.Add(new RowData { STT = "+" });
+                rows.Add(new RowData
+                {
+                    STT = (rows.Count + 1).ToString(),
+                    MaCTPN = "CTPN" + nextMa.ToString("D3")
+                });
+                rows.Add(new RowData { STT = "+", MaCTPN = "" });
             }
         }
 
@@ -132,7 +156,7 @@ namespace Sprint2a
                 var data = item as RowData;
                 if (data == null || data.STT == "+") continue;
 
-                string triGiaStr = LayTextTuCell(row, 6);
+                string triGiaStr = LayTextTuCell(row, 7);
                 if (decimal.TryParse(triGiaStr, out decimal triGia))
                     tong += triGia;
             }
@@ -160,12 +184,13 @@ namespace Sprint2a
                 var data = item as RowData;
                 if (data == null || data.STT == "+") continue;
 
-                string tenGame = LayTextTuCell(row, 1);
-                string loaiGame = LayComboBoxTuCell(row, 2);
-                int maLoaiGame = LayMaLoaiGameTuCell(row, 2);
-                string nhaPhatHanh = LayTextTuCell(row, 3);
-                string namPhatHanhStr = LayTextTuCell(row, 4);
-                string triGiaStr = LayTextTuCell(row, 6);
+                string tenGame = LayTextTuCell(row, 2);
+                string loaiGame = LayComboBoxTuCell(row, 3);
+                int maLoaiGame = LayMaLoaiGameTuCell(row, 3);
+                string nhaPhatHanh = LayTextTuCell(row, 4);
+                string namPhatHanhStr = LayTextTuCell(row, 5);
+                                                                 // cột 6 = TUỔI GAME (read-only, bỏ qua)
+                string triGiaStr = LayTextTuCell(row, 7);
 
                 // Bỏ qua dòng trống hoàn toàn
                 if (string.IsNullOrWhiteSpace(tenGame) &&
@@ -357,6 +382,62 @@ namespace Sprint2a
             public int NamPhatHanh { get; set; }
             public int SoTuoi { get; set; }
             public decimal TriGia { get; set; }
+        }
+
+
+
+
+
+
+
+
+
+        // ==================== TÍNH TUỔI GAME REALTIME ====================
+        private void TxtNamPhatHanh_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var txtNam = sender as TextBox;
+            if (txtNam == null) return;
+
+            // Tìm DataGridRow chứa TextBox này
+            var row = FindVisualParent<DataGridRow>(txtNam);
+            if (row == null) return;
+
+            // Lấy TextBlock Tuổi game (cột index 6)
+            var presenter = FindVisualChild<System.Windows.Controls.Primitives.DataGridCellsPresenter>(row);
+            if (presenter == null) return;
+            var cellTuoi = presenter.ItemContainerGenerator.ContainerFromIndex(6) as DataGridCell;
+            if (cellTuoi == null) return;
+            var tbTuoi = FindVisualChild<TextBlock>(cellTuoi);
+            if (tbTuoi == null) return;
+
+            // Tính tuổi
+            if (int.TryParse(txtNam.Text.Trim(), out int namPhatHanh) && namPhatHanh > 0)
+            {
+                int soTuoi = DateTime.Today.Year - namPhatHanh;
+                tbTuoi.Text = soTuoi >= 0 ? soTuoi.ToString() : "";
+
+                // Highlight đỏ nếu vượt qui định
+                tbTuoi.Foreground = soTuoi > quiDinhTuoiGame
+                    ? System.Windows.Media.Brushes.Red
+                    : System.Windows.Media.Brushes.Black;
+            }
+            else
+            {
+                tbTuoi.Text = "";
+                tbTuoi.Foreground = System.Windows.Media.Brushes.Black;
+            }
+        }
+
+        // ==================== TÌM VISUAL PARENT ====================
+        private T FindVisualParent<T>(System.Windows.DependencyObject child) where T : System.Windows.DependencyObject
+        {
+            var parent = System.Windows.Media.VisualTreeHelper.GetParent(child);
+            while (parent != null)
+            {
+                if (parent is T result) return result;
+                parent = System.Windows.Media.VisualTreeHelper.GetParent(parent);
+            }
+            return null;
         }
     }
 }

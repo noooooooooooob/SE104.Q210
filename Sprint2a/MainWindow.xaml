@@ -53,7 +53,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- FORM -->
+                    <!-- FORM (4 cột: Mã phiếu nhập | Ngày nhập | Quy định tuổi | Tổng tiền) -->
                     <Grid Grid.Row="0">
 
                         <Grid.ColumnDefinitions>
@@ -64,48 +64,30 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="15"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="15"/>
-                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- Mã CT phiếu nhập -->
-                        <StackPanel Grid.Column="0">
-                            <Label Content="Mã CT phiếu nhập" FontSize="18"/>
-                            <Border Background="#A0A0A0" Height="40" CornerRadius="5">
-                                <TextBlock x:Name="txtMaCTPN"
-                                           Text="&lt;Giá trị phát sinh&gt;"
-                                           Foreground="Gray"
-                                           FontStyle="Italic" FontSize="20"
-                                           VerticalAlignment="Center" Margin="4,0"/>
-                            </Border>
-                        </StackPanel>
-
                         <!-- Mã phiếu nhập -->
-                        <StackPanel Grid.Column="2">
+                        <StackPanel Grid.Column="0">
                             <Label Content="Mã phiếu nhập" FontSize="18"/>
                             <Border Background="#A0A0A0" Height="40" CornerRadius="5">
                                 <TextBlock x:Name="txtMaPN"
                                            Text="&lt;Giá trị phát sinh&gt;"
                                            Foreground="Gray"
-                                           FontStyle="Italic" FontSize="20"
-                                           VerticalAlignment="Center" Margin="4,0"/>
+                                           FontStyle="Italic" FontSize="18"
+                                           VerticalAlignment="Center" Margin="8,0"/>
                             </Border>
                         </StackPanel>
 
                         <!-- Ngày nhập -->
-                        <StackPanel Grid.Column="4">
+                        <StackPanel Grid.Column="2">
                             <Label Content="Ngày nhập" FontSize="18"/>
-                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
-                                <DatePicker x:Name="dpNgayNhap"
-                                            Height="40"
-                                            FontSize="20"
-                                            BorderThickness="0"
-                                            Language="vi-VN"
-                                            Background="White">
+                            <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
+                                <DatePicker x:Name="dpNgayNhap" Height="40" FontSize="24" BorderThickness="0" Language="vi-VN" Background="White" VerticalContentAlignment="Center">
                                     <DatePicker.Resources>
                                         <Style TargetType="DatePickerTextBox">
                                             <Setter Property="IsReadOnly" Value="True"/>
                                             <Setter Property="Background" Value="White"/>
+                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
                                             <Setter Property="BorderThickness" Value="0"/>
                                         </Style>
                                     </DatePicker.Resources>
@@ -113,22 +95,22 @@
                             </Border>
                         </StackPanel>
 
-                        <!-- Qui định tuổi game -->
-                        <StackPanel Grid.Column="6">
+                        <!-- Quy định tuổi game -->
+                        <StackPanel Grid.Column="4">
                             <Label Content="Quy định tuổi game" FontSize="18"/>
                             <Border Background="#A0A0A0" Height="40" CornerRadius="5">
                                 <TextBlock x:Name="txtQuiDinhTuoiGame"
-                                           FontSize="20"
+                                           FontSize="18"
                                            VerticalAlignment="Center" Margin="8,0"/>
                             </Border>
                         </StackPanel>
 
                         <!-- Tổng tiền -->
-                        <StackPanel Grid.Column="8">
+                        <StackPanel Grid.Column="6">
                             <Label Content="Tổng tiền" FontSize="18"/>
                             <Border Background="#A0A0A0" Height="40" CornerRadius="5">
                                 <TextBlock x:Name="txtTongTien"
-                                           FontSize="20"
+                                           FontSize="18"
                                            VerticalAlignment="Center" Margin="8,0"/>
                             </Border>
                         </StackPanel>
@@ -153,7 +135,7 @@
                                   VerticalGridLinesBrush="#CCCCCC"
                                   Background="White"
                                   BorderThickness="0"
-                                  FontSize="18">
+                                  FontSize="16">
 
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader">
@@ -172,14 +154,28 @@
                             <DataGrid.Columns>
 
                                 <!-- STT -->
-                                <DataGridTemplateColumn Header="STT" Width="60">
+                                <DataGridTemplateColumn Header="STT" Width="55">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Content="{Binding STT}"
                                                     Width="35" Height="35"
-                                                    FontSize="20" FontWeight="Bold"
+                                                    FontSize="18" FontWeight="Bold"
                                                     Background="Transparent"
                                                     Click="BtnSTT_Click"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!-- MÃ CT PHIẾU NHẬP (phát sinh, read-only) -->
+                                <DataGridTemplateColumn Header="MÃ CT PHIẾU NHẬP" Width="180">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#A0A0A0" Height="40" CornerRadius="5">
+                                                <TextBlock Text="{Binding MaCTPN}"
+                                                           FontSize="16" FontStyle="Italic"
+                                                           Foreground="Gray"
+                                                           VerticalAlignment="Center" Margin="6,0"/>
+                                            </Border>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -188,8 +184,9 @@
                                 <DataGridTemplateColumn Header="TÊN GAME" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                                <TextBox Height="35" BorderThickness="0" FontSize="18"
+                                            <Border BorderBrush="#AAAAAA" BorderThickness="1"
+                                                    CornerRadius="5" Height="40">
+                                                <TextBox Height="35" BorderThickness="0" FontSize="16"
                                                          VerticalContentAlignment="Center" Margin="1,0"/>
                                             </Border>
                                         </DataTemplate>
@@ -201,7 +198,7 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <ComboBox x:Name="cboLoaiGame"
-                                                      Height="38" FontSize="18"
+                                                      Height="38" FontSize="16"
                                                       Loaded="CboLoaiGame_Loaded"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -211,8 +208,9 @@
                                 <DataGridTemplateColumn Header="NHÀ PHÁT HÀNH" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                                <TextBox Height="35" BorderThickness="0" FontSize="18"
+                                            <Border BorderBrush="#AAAAAA" BorderThickness="1"
+                                                    CornerRadius="5" Height="40">
+                                                <TextBox Height="35" BorderThickness="0" FontSize="16"
                                                          VerticalContentAlignment="Center" Margin="1,0"/>
                                             </Border>
                                         </DataTemplate>
@@ -224,9 +222,10 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                                <TextBox Height="35" BorderThickness="0" FontSize="18"
-                                                         VerticalContentAlignment="Center" Margin="1,0"
-                                                         PreviewTextInput="NumberOnly_PreviewTextInput"/>
+                                                <TextBox Height="35" BorderThickness="0" FontSize="16"
+                                                 VerticalContentAlignment="Center" Margin="1,0"
+                                                 PreviewTextInput="NumberOnly_PreviewTextInput"
+                                                 TextChanged="TxtNamPhatHanh_TextChanged"/>
                                             </Border>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -237,7 +236,7 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Border Background="#E0E0E0" Height="40" CornerRadius="5">
-                                                <TextBlock FontSize="18"
+                                                <TextBlock FontSize="16"
                                                            VerticalAlignment="Center" Margin="8,0"/>
                                             </Border>
                                         </DataTemplate>
@@ -248,8 +247,9 @@
                                 <DataGridTemplateColumn Header="TRỊ GIÁ" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                                <TextBox Height="35" BorderThickness="0" FontSize="18"
+                                            <Border BorderBrush="#AAAAAA" BorderThickness="1"
+                                                    CornerRadius="5" Height="40">
+                                                <TextBox Height="35" BorderThickness="0" FontSize="16"
                                                          VerticalContentAlignment="Center" Margin="1,0"
                                                          PreviewTextInput="NumberOnly_PreviewTextInput"
                                                          TextChanged="TxtTriGia_TextChanged"/>

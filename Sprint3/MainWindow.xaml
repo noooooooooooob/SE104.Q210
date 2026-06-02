@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sprint3"
         mc:Ignorable="d"
-        Title="Tra cứu Game" Height="650" Width="1600">
+        Title="Tra cứu Game" Height="650" Width="1600"
+        Loaded="Window_Loaded">
+
     <Border BorderBrush="Black" BorderThickness="1" Margin="10" CornerRadius="8" ClipToBounds="True">
         <Grid>
             <Grid.RowDefinitions>
@@ -25,14 +27,13 @@
             <!-- Đường kẻ ngang -->
             <Border Grid.Row="1" BorderBrush="#AAAAAA" BorderThickness="0,1,0,0"/>
 
-
             <!-- Box bao quanh -->
-            <Border Grid.Row="2" 
-                    BorderBrush="#CCCCCC" 
-                    BorderThickness="1" 
-                    CornerRadius="5" 
-                    Background="#FFDDE3E7" 
-                    Margin="10,15,10,10" 
+            <Border Grid.Row="2"
+                    BorderBrush="#CCCCCC"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Background="#FFDDE3E7"
+                    Margin="10,15,10,10"
                     Padding="10">
 
                 <Grid>
@@ -43,12 +44,8 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-
-
-
-
-
-                    <Grid Grid.Row="0" Margin="12,-12,12,12">
+                    <!-- HÀNG 1: Mã CT phiếu nhập | Ngày nhập | Tên Game | Tên loại Game | Nhà phát hành -->
+                    <Grid Grid.Row="0" Margin="12,0,12,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="40"/>
@@ -61,24 +58,26 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
+                        <!-- Mã CT phiếu nhập -->
                         <StackPanel Grid.Column="0">
-                            <Label Content="Mã CT phiếu nhập" FontSize="24"/>
-
-                            <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                <TextBox Height="35" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center" Margin="1,0,1,0"/>
+                            <Label Content="Mã CT phiếu nhập" FontSize="18"/>
+                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
+                                <TextBox x:Name="txtMaCTPN"
+                                         Height="35" BorderThickness="0" FontSize="18"
+                                         VerticalContentAlignment="Center" Margin="6,0"/>
                             </Border>
                         </StackPanel>
 
-
-
+                        <!-- Ngày nhập -->
                         <StackPanel Grid.Column="2">
-                            <Label Content="Ngày nhập" FontSize="24"/>
-
-                            <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
-                                <DatePicker Height="40" FontSize="24" BorderThickness="0" Language="vi-VN" Background="White" VerticalContentAlignment="Center">
+                            <Label Content="Ngày nhập" FontSize="18"/>
+                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
+                                <DatePicker x:Name="dpNgayNhap"
+                                            Height="40" FontSize="18" BorderThickness="0"
+                                            Language="vi-VN" Background="White" VerticalContentAlignment="Center">
                                     <DatePicker.Resources>
                                         <Style TargetType="DatePickerTextBox">
-                                            <Setter Property="IsReadOnly" Value="True"/>
+                                            <Setter Property="IsReadOnly" Value="False"/>
                                             <Setter Property="Background" Value="White"/>
                                             <Setter Property="VerticalContentAlignment" Value="Center"/>
                                             <Setter Property="BorderThickness" Value="0"/>
@@ -88,49 +87,44 @@
                             </Border>
                         </StackPanel>
 
-
-
+                        <!-- Tên Game -->
                         <StackPanel Grid.Column="4">
-                            <Label Content="Tên Game" FontSize="24"/>
-
-                            <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                <TextBox Height="35" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center" Margin="1,0,1,0"/>
+                            <Label Content="Tên Game" FontSize="18"/>
+                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
+                                <TextBox x:Name="txtTenGame"
+                                         Height="35" BorderThickness="0" FontSize="18"
+                                         VerticalContentAlignment="Center" Margin="6,0"/>
                             </Border>
                         </StackPanel>
 
-
-
+                        <!-- Tên loại Game -->
                         <StackPanel Grid.Column="6">
-                            <Label Content="Tên loại Game" FontSize="24"/>
-
-                            <ComboBox Height="40" FontSize="24" VerticalContentAlignment="Center"/>
+                            <Label Content="Tên loại Game" FontSize="18"/>
+                            <ComboBox x:Name="cboTenLoaiGame"
+                                      Height="40" FontSize="18"
+                                      VerticalContentAlignment="Center"/>
                         </StackPanel>
 
-
-
+                        <!-- Nhà phát hành -->
                         <StackPanel Grid.Column="8">
-                            <Label Content="Nhà phát hành" FontSize="24"/>
-
-                            <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                <TextBox Height="35" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center" Margin="1,0,1,0"/>
+                            <Label Content="Nhà phát hành" FontSize="18"/>
+                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
+                                <TextBox x:Name="txtNhaPhatHanh"
+                                         Height="35" BorderThickness="0" FontSize="18"
+                                         VerticalContentAlignment="Center" Margin="6,0"/>
                             </Border>
                         </StackPanel>
-
-
-
-
-
                     </Grid>
 
-
-
-                    <Grid Grid.Row="1" Margin="12,12,12,12">
+                    <!-- HÀNG 2: Năm phát hành từ/đến | Trị giá từ/đến -->
+                    <Grid Grid.Row="1" Margin="12,8,12,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="40"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
+                        <!-- Năm phát hành từ ... đến -->
                         <Grid Grid.Column="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -138,23 +132,26 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
-                                <TextBlock Text="Năm phát hành " FontSize="24" VerticalAlignment="Center"/>
-                                <TextBlock Text="từ" Foreground="#E26B67" FontSize="24" VerticalAlignment="Center"/>
+                                <TextBlock Text="Năm phát hành " FontSize="18" VerticalAlignment="Center"/>
+                                <TextBlock Text="từ" Foreground="#E26B67" FontSize="18" VerticalAlignment="Center"/>
                             </StackPanel>
-
-                            <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                <TextBox Height="35" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center" Margin="1,0,1,0"/>
+                            <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
+                                <TextBox x:Name="txtNamTu"
+                                         Height="35" BorderThickness="0" FontSize="18"
+                                         VerticalContentAlignment="Center" Margin="6,0"
+                                         PreviewTextInput="NumberOnly_PreviewTextInput"/>
                             </Border>
-
-                            <TextBlock Grid.Column="2" Text="đến" Foreground="#E26B67" FontSize="24" VerticalAlignment="Center" Margin="15,0"/>
-
-                            <Border Grid.Column="3" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                <TextBox Height="35" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center" Margin="1,0,1,0"/>
+                            <TextBlock Grid.Column="2" Text="đến" Foreground="#E26B67" FontSize="18" VerticalAlignment="Center" Margin="15,0"/>
+                            <Border Grid.Column="3" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
+                                <TextBox x:Name="txtNamDen"
+                                         Height="35" BorderThickness="0" FontSize="18"
+                                         VerticalContentAlignment="Center" Margin="6,0"
+                                         PreviewTextInput="NumberOnly_PreviewTextInput"/>
                             </Border>
                         </Grid>
 
+                        <!-- Trị giá từ ... đến -->
                         <Grid Grid.Column="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -162,37 +159,35 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
-                                <TextBlock Text="Trị giá " FontSize="24" VerticalAlignment="Center"/>
-                                <TextBlock Text="từ" Foreground="#E26B67" FontSize="24" VerticalAlignment="Center"/>
+                                <TextBlock Text="Trị giá " FontSize="18" VerticalAlignment="Center"/>
+                                <TextBlock Text="từ" Foreground="#E26B67" FontSize="18" VerticalAlignment="Center"/>
                             </StackPanel>
-
-                            <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                <TextBox Height="35" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center" Margin="1,0,1,0"/>
+                            <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
+                                <TextBox x:Name="txtTriGiaTu"
+                                         Height="35" BorderThickness="0" FontSize="18"
+                                         VerticalContentAlignment="Center" Margin="6,0"
+                                         PreviewTextInput="NumberOnly_PreviewTextInput"/>
                             </Border>
-
-                            <TextBlock Grid.Column="2" Text="đến" Foreground="#E26B67" FontSize="24" VerticalAlignment="Center" Margin="15,0"/>
-
-                            <Border Grid.Column="3" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                <TextBox Height="35" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center" Margin="1,0,1,0"/>
+                            <TextBlock Grid.Column="2" Text="đến" Foreground="#E26B67" FontSize="18" VerticalAlignment="Center" Margin="15,0"/>
+                            <Border Grid.Column="3" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
+                                <TextBox x:Name="txtTriGiaDen"
+                                         Height="35" BorderThickness="0" FontSize="18"
+                                         VerticalContentAlignment="Center" Margin="6,0"
+                                         PreviewTextInput="NumberOnly_PreviewTextInput"/>
                             </Border>
                         </Grid>
                     </Grid>
 
-
-
-
-
-
-
-                    <Grid Grid.Row="2" Margin="12,12,12,12">
+                    <!-- HÀNG 3: Tổng trị giá phiếu nhập từ/đến -->
+                    <Grid Grid.Row="2" Margin="12,8,12,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="40"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
+                        <!-- Tổng trị giá phiếu nhập từ ... đến -->
                         <Grid Grid.Column="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -200,54 +195,50 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
-                                <TextBlock Text="Tổng trị giá phiếu nhập " FontSize="24" VerticalAlignment="Center"/>
-                                <TextBlock Text="từ" Foreground="#E26B67" FontSize="24" VerticalAlignment="Center"/>
+                                <TextBlock Text="Tổng trị giá phiếu nhập " FontSize="18" VerticalAlignment="Center"/>
+                                <TextBlock Text="từ" Foreground="#E26B67" FontSize="18" VerticalAlignment="Center"/>
                             </StackPanel>
-
-                            <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                <TextBox Height="35" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center" Margin="1,0,1,0"/>
+                            <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
+                                <TextBox x:Name="txtTongTriGiaTu"
+                                         Height="35" BorderThickness="0" FontSize="18"
+                                         VerticalContentAlignment="Center" Margin="6,0"
+                                         PreviewTextInput="NumberOnly_PreviewTextInput"/>
                             </Border>
-
-                            <TextBlock Grid.Column="2" Text="đến" Foreground="#E26B67" FontSize="24" VerticalAlignment="Center" Margin="15,0"/>
-
-                            <Border Grid.Column="3" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40">
-                                <TextBox Height="35" BorderThickness="0" FontSize="24" VerticalContentAlignment="Center" Margin="1,0,1,0"/>
+                            <TextBlock Grid.Column="2" Text="đến" Foreground="#E26B67" FontSize="18" VerticalAlignment="Center" Margin="15,0"/>
+                            <Border Grid.Column="3" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
+                                <TextBox x:Name="txtTongTriGiaDen"
+                                         Height="35" BorderThickness="0" FontSize="18"
+                                         VerticalContentAlignment="Center" Margin="6,0"
+                                         PreviewTextInput="NumberOnly_PreviewTextInput"/>
                             </Border>
                         </Grid>
-
                     </Grid>
 
+                    <!-- BẢNG KẾT QUẢ -->
+                    <Border Grid.Row="3"
+                            BorderBrush="#CCCCCC" BorderThickness="2"
+                            CornerRadius="5" Background="White"
+                            Margin="12,12,12,12" Padding="10">
 
-
-
-
-
-
-
-
-
-                    <Border Grid.Row="3" BorderBrush="#CCCCCC" BorderThickness="2" CornerRadius="5" Background="White" Margin="12,12,12,12" Padding="10">
-
-                        <DataGrid AutoGenerateColumns="False" 
-                            CanUserAddRows="False"
-                            HeadersVisibility="Column" 
-                            GridLinesVisibility="All" 
-                            HorizontalGridLinesBrush="#CCCCCC" 
-                            VerticalGridLinesBrush="#CCCCCC" 
-                            Background="White" 
-                            BorderThickness="0"
-                            FontSize="20"
-                            VerticalScrollBarVisibility="Auto"
-                            HorizontalScrollBarVisibility="Auto"
-                            VirtualizingPanel.ScrollUnit="Pixel">
+                        <DataGrid x:Name="dgKetQua"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  IsReadOnly="True"
+                                  HeadersVisibility="Column"
+                                  GridLinesVisibility="All"
+                                  HorizontalGridLinesBrush="#CCCCCC"
+                                  VerticalGridLinesBrush="#CCCCCC"
+                                  Background="White"
+                                  BorderThickness="0"
+                                  FontSize="16"
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Auto">
 
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="Height" Value="40"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
-                                    <Setter Property="Foreground" Value="#333333"/>
                                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                                     <Setter Property="Background" Value="#F9FBFD"/>
                                     <Setter Property="BorderBrush" Value="#CCCCCC"/>
@@ -262,100 +253,38 @@
                             </DataGrid.RowStyle>
 
                             <DataGrid.Columns>
-
-                                <DataGridTextColumn Header="STT" Binding="{Binding STT}" Width="60">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="HorizontalAlignment" Value="Center"/>
-                                            <Setter Property="VerticalAlignment" Value="Center"/>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
-
-                                <DataGridTemplateColumn Header="NGÀY NHẬP" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="12" Margin="5,3" Background="#808080" Height="30"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                <DataGridTemplateColumn Header="TÊN GAME" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="12" Margin="5,3" Background="#808080" Height="30"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                <DataGridTemplateColumn Header="TÊN LOẠI GAME" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="12" Margin="5,3" Background="#808080" Height="30"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                <DataGridTemplateColumn Header="NHÀ PHÁT HÀNH" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="12" Margin="5,3" Background="#808080" Height="30"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                <DataGridTemplateColumn Header="NĂM PHÁT HÀNH" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="12" Margin="5,3" Background="#808080" Height="30"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                <DataGridTemplateColumn Header="TRỊ GIÁ" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="12" Margin="5,3" Background="#808080" Height="30"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                <DataGridTemplateColumn Header="TÌNH TRẠNG" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="12" Margin="5,3" Background="#808080" Height="30"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
+                                <DataGridTextColumn Header="STT"           Binding="{Binding STT}"          Width="60"/>
+                                <DataGridTextColumn Header="NGÀY NHẬP"     Binding="{Binding NgayNhap}"      Width="*"/>
+                                <DataGridTextColumn Header="TÊN GAME"      Binding="{Binding TenGame}"       Width="*"/>
+                                <DataGridTextColumn Header="TÊN LOẠI GAME" Binding="{Binding TenLoaiGame}"   Width="*"/>
+                                <DataGridTextColumn Header="NHÀ PHÁT HÀNH" Binding="{Binding NhaPhatHanh}"   Width="*"/>
+                                <DataGridTextColumn Header="NĂM PHÁT HÀNH" Binding="{Binding NamPhatHanh}"   Width="*"/>
+                                <DataGridTextColumn Header="TRỊ GIÁ"       Binding="{Binding TriGia}"        Width="*"/>
+                                <DataGridTextColumn Header="TÌNH TRẠNG"    Binding="{Binding TinhTrang}"     Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Border>
-
-
                 </Grid>
             </Border>
-
 
             <!-- Đường kẻ ngang -->
             <Border Grid.Row="3" BorderBrush="#AAAAAA" BorderThickness="0,1,0,0"/>
 
-
-            
             <!-- Nút bấm -->
-            <Grid Grid.Row="4" Margin="12,10,12,12">
+            <Grid Grid.Row="3" Margin="12,14,12,12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0" Content="Tra cứu Game"
-                        Height="45" Width="250"
+                        Height="45" Width="200"
                         HorizontalAlignment="Left"
                         FontSize="20"
                         Background="#00BCD4"
                         Foreground="White"
-                        BorderThickness="1"/>
+                        BorderThickness="1"
+                        Click="BtnTraCuu_Click"/>
 
                 <Button Grid.Column="1" Content="Thoát"
                         Height="45" Width="120"
@@ -365,8 +294,6 @@
                         BorderThickness="1"
                         Click="BtnThoat_Click"/>
             </Grid>
-
-
         </Grid>
     </Border>
 </Window>

@@ -288,7 +288,7 @@ namespace Sprint2a
                             cmdCT.Parameters.AddWithValue("@NhaPhatHanh", g.NhaPhatHanh);
                             cmdCT.Parameters.AddWithValue("@NamPhatHanh", g.NamPhatHanh);
                             cmdCT.Parameters.AddWithValue("@TriGia", g.TriGia);
-                            cmdCT.Parameters.AddWithValue("@TinhTrang", "Còn hàng");
+                            cmdCT.Parameters.AddWithValue("@TinhTrang", "Có sẵn");
                             cmdCT.ExecuteNonQuery();
                         }
 
@@ -398,11 +398,29 @@ namespace Sprint2a
             var txtNam = sender as TextBox;
             if (txtNam == null) return;
 
-            // Tìm DataGridRow chứa TextBox này
             var row = FindVisualParent<DataGridRow>(txtNam);
             if (row == null) return;
 
-            // Lấy TextBlock Tuổi game (cột index 6)
+            CapNhatTuoiChoRow(row, txtNam.Text.Trim());
+        }
+
+        private void DpNgayNhap_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgGames == null) return;
+            foreach (var item in dgGames.Items)
+            {
+                var row = dgGames.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+                if (row == null) continue;
+                var data = item as RowData;
+                if (data == null || data.STT == "+") continue;
+
+                string namStr = LayTextTuCell(row, 5);
+                CapNhatTuoiChoRow(row, namStr);
+            }
+        }
+
+        private void CapNhatTuoiChoRow(DataGridRow row, string namPhatHanhStr)
+        {
             var presenter = FindVisualChild<System.Windows.Controls.Primitives.DataGridCellsPresenter>(row);
             if (presenter == null) return;
             var cellTuoi = presenter.ItemContainerGenerator.ContainerFromIndex(6) as DataGridCell;
@@ -410,13 +428,12 @@ namespace Sprint2a
             var tbTuoi = FindVisualChild<TextBlock>(cellTuoi);
             if (tbTuoi == null) return;
 
-            // Tính tuổi
-            if (int.TryParse(txtNam.Text.Trim(), out int namPhatHanh) && namPhatHanh > 0)
-            {
-                int soTuoi = DateTime.Today.Year - namPhatHanh;
-                tbTuoi.Text = soTuoi >= 0 ? soTuoi.ToString() : "";
+            int namNhap = (dpNgayNhap.SelectedDate ?? DateTime.Today).Year;
 
-                // Highlight đỏ nếu vượt qui định
+            if (int.TryParse(namPhatHanhStr, out int namPhatHanh) && namPhatHanh > 0)
+            {
+                int soTuoi = namNhap - namPhatHanh;
+                tbTuoi.Text = soTuoi >= 0 ? soTuoi.ToString() : "";
                 tbTuoi.Foreground = soTuoi > quiDinhTuoiGame
                     ? System.Windows.Media.Brushes.Red
                     : System.Windows.Media.Brushes.Black;

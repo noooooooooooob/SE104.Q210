@@ -82,7 +82,7 @@
                         <StackPanel Grid.Column="2">
                             <Label Content="Ngày nhập" FontSize="18"/>
                             <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5" Height="40" Background="White">
-                                <DatePicker x:Name="dpNgayNhap" Height="40" FontSize="24" BorderThickness="0" Language="vi-VN" Background="White" VerticalContentAlignment="Center">
+                                <DatePicker x:Name="dpNgayNhap" Height="40" FontSize="24" BorderThickness="0" Language="vi-VN" Background="White" VerticalContentAlignment="Center" SelectedDateChanged="DpNgayNhap_SelectedDateChanged" DisplayDateStart="{x:Static sys:DateTime.Today}">
                                     <DatePicker.Resources>
                                         <Style TargetType="DatePickerTextBox">
                                             <Setter Property="IsReadOnly" Value="True"/>

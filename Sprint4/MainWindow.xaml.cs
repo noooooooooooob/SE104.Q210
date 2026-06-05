@@ -67,6 +67,7 @@ namespace Sprint4
             NapDanhSachKhachHang();
             NapQuyDinh();
             NapDanhSachGame();
+            CapNhatMaPhieuMuonPreview();
         }
 
         // ==================== NẠP KHÁCH HÀNG ====================
@@ -363,8 +364,7 @@ namespace Sprint4
             txbNgayHetHan.Text = "";
             txbNgayHetHanMuon.Text = "";
             dpNgayMuon.SelectedDate = DateTime.Today;
-            txbMaPhieuMuon.Text = "<Giá trị phát sinh>";
-            txbMaPhieuMuon.Foreground = System.Windows.Media.Brushes.Gray;
+            CapNhatMaPhieuMuonPreview();
 
             NapDanhSachGame(); // load lại game vì tình trạng đã thay đổi
         }
@@ -373,6 +373,33 @@ namespace Sprint4
         private void BtnThoat_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+
+        // ==================== LẤY MÃ PHIẾU TIẾP THEO ====================
+        private void CapNhatMaPhieuMuonPreview()
+        {
+            try
+            {
+                using (var conn = DataProvider.Instance.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new MySqlCommand(
+                        "SELECT AUTO_INCREMENT FROM information_schema.TABLES " +
+                        "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'PHIEUMUON'", conn);
+                    object result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        txbMaPhieuMuon.Text = Convert.ToInt64(result).ToString();
+                        txbMaPhieuMuon.Foreground = System.Windows.Media.Brushes.Gray;
+                    }
+                }
+            }
+            catch
+            {
+                txbMaPhieuMuon.Text = "<Giá trị phát sinh>";
+                txbMaPhieuMuon.Foreground = System.Windows.Media.Brushes.Gray;
+            }
         }
     }
 }

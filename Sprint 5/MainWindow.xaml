@@ -1,0 +1,264 @@
+﻿<Window x:Class="Sprint5.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Lập phiếu trả Game"
+        Height="560" Width="900"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+
+    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="8" Margin="10" ClipToBounds="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="65"/>
+            </Grid.RowDefinitions>
+
+            <!-- Tiêu đề -->
+            <TextBlock Grid.Row="0" Text="Lập phiếu trả Game"
+                       FontSize="22" FontWeight="Bold" Margin="20,12,0,12"/>
+
+            <Border Grid.Row="1" BorderBrush="#AAAAAA" BorderThickness="0,1,0,0"/>
+
+            <!-- Nội dung -->
+            <Border Grid.Row="2" Margin="12,12,12,12" Padding="14"
+                    BorderBrush="#CCCCCC" BorderThickness="1"
+                    CornerRadius="5" Background="#EEF1F5">
+                <StackPanel>
+
+                    <!-- HÀNG 1: Mã phiếu trả | Họ tên KH | Ngày trả | Tiền phạt kỳ này | Tiền nợ -->
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.2*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="1.3*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="1.3*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="1.1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Mã phiếu trả -->
+                        <StackPanel Grid.Column="0">
+                            <Label Content="Mã phiếu trả" FontSize="13" Padding="0,0,0,2"/>
+                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="4"
+                                    Height="36" Background="#E0E0E0">
+                                <TextBlock x:Name="txbMaPhieuTra"
+                                           Text="&lt;Giá trị phát sinh&gt;"
+                                           FontSize="13" Foreground="#888"
+                                           VerticalAlignment="Center" Margin="8,0"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Họ tên khách hàng -->
+                        <StackPanel Grid.Column="2">
+                            <Label Content="Họ tên khách hàng" FontSize="13" Padding="0,0,0,2"/>
+                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="4"
+                                    Height="36" Background="White">
+                                <ComboBox x:Name="cboKhachHang" Height="32" FontSize="13"
+                                          BorderThickness="0" VerticalContentAlignment="Center"
+                                          SelectionChanged="CboKhachHang_SelectionChanged"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Ngày trả -->
+                        <StackPanel Grid.Column="4">
+                            <Label Content="Ngày trả" FontSize="13" Padding="0,0,0,2"/>
+                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="4"
+                                    Height="36" Background="White">
+                                <DatePicker x:Name="dpNgayTra" Height="36" FontSize="13"
+                                            BorderThickness="0" Background="White"
+                                            VerticalContentAlignment="Center"
+                                            SelectedDateChanged="DpNgayTra_SelectedDateChanged">
+                                    <DatePicker.Resources>
+                                        <Style TargetType="DatePickerTextBox">
+                                            <Setter Property="Background" Value="White"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                        </Style>
+                                    </DatePicker.Resources>
+                                </DatePicker>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Tiền phạt kỳ này -->
+                        <StackPanel Grid.Column="6">
+                            <Label Content="Tiền phạt kỳ này" FontSize="13" Padding="0,0,0,2"/>
+                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="4"
+                                    Height="36" Background="#E0E0E0">
+                                <TextBlock x:Name="txbTienPhatKyNay" FontSize="13"
+                                           VerticalAlignment="Center" Margin="8,0"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Tiền nợ -->
+                        <StackPanel Grid.Column="8">
+                            <Label Content="Tiền nợ" FontSize="13" Padding="0,0,0,2"/>
+                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="4"
+                                    Height="36" Background="#E0E0E0">
+                                <TextBlock x:Name="txbTienNo" FontSize="13"
+                                           VerticalAlignment="Center" Margin="8,0"/>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- HÀNG 2: Tổng nợ | Quy định tiền phạt -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.8*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Tổng nợ -->
+                        <StackPanel Grid.Column="0">
+                            <Label Content="Tổng nợ" FontSize="13" Padding="0,0,0,2"/>
+                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="4"
+                                    Height="36" Background="#E0E0E0">
+                                <TextBlock x:Name="txbTongNo" FontSize="13"
+                                           VerticalAlignment="Center" Margin="8,0"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Quy định tiền phạt -->
+                        <StackPanel Grid.Column="2">
+                            <Label Content="Quy định tiền phạt" FontSize="13" Padding="0,0,0,2"/>
+                            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="4"
+                                    Height="36" Background="#E0E0E0">
+                                <TextBlock x:Name="txbQuyDinhTienPhat" FontSize="13"
+                                           VerticalAlignment="Center" Margin="8,0"/>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- BẢNG GAME TRẢ -->
+                    <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="4" Background="White">
+                        <StackPanel>
+
+                            <!-- Header -->
+                            <Grid Background="#D8DCE2" Height="36">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="STT" FontWeight="Bold" FontSize="13"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="TÊN GAME" FontWeight="Bold" FontSize="13"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="NGÀY MƯỢN" FontWeight="Bold" FontSize="13"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="3" Text="SỐ NGÀY MƯỢN" FontWeight="Bold" FontSize="13"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="TIỀN PHẠT" FontWeight="Bold" FontSize="13"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Border BorderBrush="#CCCCCC" BorderThickness="0,1,0,0"/>
+
+                            <!-- ROW 1 -->
+                            <Grid Height="44" Margin="6,4,6,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="1" FontSize="13"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1"
+                                        CornerRadius="4" Background="White" Margin="4,4">
+                                    <ComboBox x:Name="cboGame1" FontSize="13" BorderThickness="0"
+                                              VerticalContentAlignment="Center" Tag="1"
+                                              SelectionChanged="CboGame_SelectionChanged"/>
+                                </Border>
+                                <Border Grid.Column="2" BorderBrush="#AAAAAA" BorderThickness="1"
+                                        CornerRadius="4" Background="#E0E0E0" Margin="4,4">
+                                    <TextBlock x:Name="txbNgayMuon1" FontSize="13"
+                                               VerticalAlignment="Center" Margin="6,0"/>
+                                </Border>
+                                <Border Grid.Column="3" BorderBrush="#AAAAAA" BorderThickness="1"
+                                        CornerRadius="4" Background="#E0E0E0" Margin="4,4">
+                                    <TextBlock x:Name="txbSoNgayMuon1" FontSize="13"
+                                               VerticalAlignment="Center" Margin="6,0"/>
+                                </Border>
+                                <Border Grid.Column="4" BorderBrush="#AAAAAA" BorderThickness="1"
+                                        CornerRadius="4" Background="#E0E0E0" Margin="4,4">
+                                    <TextBlock x:Name="txbTienPhat1" FontSize="13"
+                                               VerticalAlignment="Center" Margin="6,0"/>
+                                </Border>
+                            </Grid>
+
+                            <Border BorderBrush="#EEEEEE" BorderThickness="0,1,0,0"/>
+
+                            <!-- ROW 2 -->
+                            <Grid Height="44" Margin="6,4,6,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="2" FontSize="13"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Grid.Column="1" BorderBrush="#AAAAAA" BorderThickness="1"
+                                        CornerRadius="4" Background="White" Margin="4,4">
+                                    <ComboBox x:Name="cboGame2" FontSize="13" BorderThickness="0"
+                                              VerticalContentAlignment="Center" Tag="2"
+                                              SelectionChanged="CboGame_SelectionChanged"/>
+                                </Border>
+                                <Border Grid.Column="2" BorderBrush="#AAAAAA" BorderThickness="1"
+                                        CornerRadius="4" Background="#E0E0E0" Margin="4,4">
+                                    <TextBlock x:Name="txbNgayMuon2" FontSize="13"
+                                               VerticalAlignment="Center" Margin="6,0"/>
+                                </Border>
+                                <Border Grid.Column="3" BorderBrush="#AAAAAA" BorderThickness="1"
+                                        CornerRadius="4" Background="#E0E0E0" Margin="4,4">
+                                    <TextBlock x:Name="txbSoNgayMuon2" FontSize="13"
+                                               VerticalAlignment="Center" Margin="6,0"/>
+                                </Border>
+                                <Border Grid.Column="4" BorderBrush="#AAAAAA" BorderThickness="1"
+                                        CornerRadius="4" Background="#E0E0E0" Margin="4,4">
+                                    <TextBlock x:Name="txbTienPhat2" FontSize="13"
+                                               VerticalAlignment="Center" Margin="6,0"/>
+                                </Border>
+                            </Grid>
+
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="3" BorderBrush="#AAAAAA" BorderThickness="0,1,0,0"/>
+
+            <!-- Nút bấm -->
+            <Grid Grid.Row="4" Margin="12,12,12,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Content="Lập phiếu trả Game"
+                        Height="42" Width="200" FontSize="16"
+                        Background="#00BCD4" Foreground="White" BorderThickness="1"
+                        Click="BtnLapPhieu_Click"/>
+
+                <Button Grid.Column="2" Content="Thoát"
+                        Height="42" Width="100" FontSize="16"
+                        Background="#00BCD4" Foreground="White" BorderThickness="1"
+                        Click="BtnThoat_Click"/>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>

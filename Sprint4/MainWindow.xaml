@@ -4,6 +4,7 @@
         Title="Lập phiếu cho mượn Game"
         Height="610" Width="900"
         WindowStartupLocation="CenterScreen"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Loaded="Window_Loaded">
 
     <Border BorderBrush="Black" BorderThickness="1" CornerRadius="8" Margin="10" ClipToBounds="True">
@@ -83,7 +84,8 @@
                                 <DatePicker x:Name="dpNgayMuon" Height="36" FontSize="13"
                                             BorderThickness="0" Background="White"
                                             VerticalContentAlignment="Center"
-                                            SelectedDateChanged="DpNgayMuon_SelectedDateChanged">
+                                            SelectedDateChanged="DpNgayMuon_SelectedDateChanged"
+                                            DisplayDateStart="{x:Static sys:DateTime.Today}">
                                     <DatePicker.Resources>
                                         <Style TargetType="DatePickerTextBox">
                                             <Setter Property="Background" Value="White"/>

@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Lập phiếu ghi nhận mất Game"
-        Height="520" Width="780"
+        Height="520" Width="860"
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded">
 
@@ -16,9 +16,15 @@
                 <RowDefinition Height="65"/>
             </Grid.RowDefinitions>
 
-            <!-- Tiêu đề -->
-            <TextBlock Grid.Row="0" Text="Lập phiếu ghi nhận mất Game"
-                       FontSize="22" FontWeight="Bold" Margin="20,12,0,12"/>
+            <!-- Tiêu đề + X -->
+            <Grid Grid.Row="0">
+                <TextBlock Text="Lập phiếu ghi nhận mất Game"
+                           FontSize="22" FontWeight="Bold" Margin="20,12,0,12"/>
+                <Button Content="X" HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Margin="0,0,12,0" Width="30" Height="30" FontSize="14"
+                        Background="Transparent" BorderThickness="0"
+                        Click="BtnThoat_Click"/>
+            </Grid>
 
             <Border Grid.Row="1" BorderBrush="#AAAAAA" BorderThickness="0,1,0,0"/>
 
@@ -28,16 +34,16 @@
                     CornerRadius="5" Background="#EEF1F5">
                 <StackPanel>
 
-                    <!-- HÀNG 1: Mã phiếu mất | Họ tên KH | Ngày ghi nhận | Tổng tiền phạt -->
+                    <!-- HÀNG 1: Mã phiếu | Họ tên KH | Ngày ghi nhận | Tổng tiền phạt -->
                     <Grid Margin="0,0,0,10">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.1*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="1.4*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="1.3*"/>
+                            <ColumnDefinition Width="10"/>
                             <ColumnDefinition Width="1.2*"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="1.5*"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="1.3*"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="1.3*"/>
                         </Grid.ColumnDefinitions>
 
                         <!-- Mã phiếu mất -->
@@ -47,7 +53,7 @@
                                     Height="36" Background="#E0E0E0">
                                 <TextBlock x:Name="txbMaPhieuMat"
                                            Text="&lt;Giá trị phát sinh&gt;"
-                                           FontSize="13" Foreground="#888"
+                                           FontSize="12" Foreground="#888"
                                            VerticalAlignment="Center" Margin="8,0"/>
                             </Border>
                         </StackPanel>
@@ -93,12 +99,13 @@
                             </Grid.RowDefinitions>
 
                             <!-- Header -->
-                            <Grid Grid.Row="0" Background="#D0D0D0" Height="32">
+                            <Grid Grid.Row="0" Background="#D0D0D0" Height="34">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="45"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="130"/>
                                     <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="130"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="STT" FontWeight="Bold" FontSize="13"
                                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -108,9 +115,11 @@
                                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 <TextBlock Grid.Column="3" Text="TIỀN PHẠT" FontWeight="Bold" FontSize="13"
                                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="TRỊ GIÁ" FontWeight="Bold" FontSize="13"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
 
-                            <!-- Các dòng game -->
+                            <!-- Các dòng game (tạo động trong code-behind) -->
                             <StackPanel Grid.Row="1" x:Name="pnlDongGame"/>
                         </Grid>
                     </Border>
@@ -131,18 +140,18 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0" Content="Lập phiếu ghi nhận mất Game"
-                        Height="42" Width="260" FontSize="16"
-                        Background="#00BCD4" Foreground="White" BorderThickness="1"
+                        Height="42" Width="260" FontSize="15"
+                        Background="#00BCD4" Foreground="White" BorderThickness="0"
                         Click="BtnLapPhieu_Click"/>
 
                 <Button Grid.Column="2" Content="Tìm khách hàng"
-                        Height="42" Width="160" FontSize="16"
-                        Background="#00BCD4" Foreground="White" BorderThickness="1"
+                        Height="42" Width="160" FontSize="15"
+                        Background="#00BCD4" Foreground="White" BorderThickness="0"
                         Click="BtnTimKhachHang_Click"/>
 
                 <Button Grid.Column="4" Content="Thoát"
-                        Height="42" Width="100" FontSize="16"
-                        Background="#00BCD4" Foreground="White" BorderThickness="1"
+                        Height="42" Width="100" FontSize="15"
+                        Background="#00BCD4" Foreground="White" BorderThickness="0"
                         Click="BtnThoat_Click"/>
             </Grid>
         </Grid>

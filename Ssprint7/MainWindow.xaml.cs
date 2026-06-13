@@ -28,11 +28,12 @@ namespace Sprint7
             public override string ToString() => TenGame;
         }
 
-        // ==================== FIELD ====================
+        // ==================== FIELDS ====================
         private const int SO_DONG = 4;
         private List<ComboBox> _cboGames = new List<ComboBox>();
         private List<TextBlock> _txbNgayMuons = new List<TextBlock>();
         private List<TextBox> _txtTienPhats = new List<TextBox>();
+        private List<TextBlock> _txbTriGias = new List<TextBlock>();
 
         // ==================== CONSTRUCTOR ====================
         public MainWindow() { InitializeComponent(); }
@@ -53,16 +54,27 @@ namespace Sprint7
             _cboGames.Clear();
             _txbNgayMuons.Clear();
             _txtTienPhats.Clear();
+            _txbTriGias.Clear();
             pnlDongGame.Children.Clear();
 
             for (int i = 0; i < SO_DONG; i++)
             {
                 int idx = i;
-                var row = new Grid { Height = 36, Margin = new Thickness(0, 0, 0, 1) };
+
+                // Đường kẻ ngang phân cách dòng
+                if (i > 0)
+                    pnlDongGame.Children.Add(new Border
+                    {
+                        BorderBrush = new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xCC)),
+                        BorderThickness = new Thickness(0, 1, 0, 0)
+                    });
+
+                var row = new Grid { Height = 40 };
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(45) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(140) });
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(140) });
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
 
                 // STT
                 var stt = new TextBlock
@@ -79,8 +91,9 @@ namespace Sprint7
                 var cbo = new ComboBox
                 {
                     FontSize = 13,
-                    Margin = new Thickness(4, 2, 4, 2),
+                    Margin = new Thickness(4, 4, 4, 4),
                     VerticalContentAlignment = VerticalAlignment.Center,
+                    Background = new SolidColorBrush(Color.FromRgb(0xD0, 0xD0, 0xD0)),
                     IsEnabled = false
                 };
                 cbo.SelectionChanged += (s, e2) => CboGame_SelectionChanged(idx);
@@ -88,33 +101,31 @@ namespace Sprint7
                 row.Children.Add(cbo);
                 _cboGames.Add(cbo);
 
-                // TextBlock Ngày mượn (read-only)
+                // TextBlock Ngày mượn (read-only, xám)
                 var borderNgay = new Border
                 {
-                    BorderBrush = Brushes.Transparent,
-                    BorderThickness = new Thickness(1),
-                    Background = new SolidColorBrush(Color.FromRgb(0xE0, 0xE0, 0xE0)),
-                    Margin = new Thickness(4, 2, 4, 2),
+                    Background = new SolidColorBrush(Color.FromRgb(0xD0, 0xD0, 0xD0)),
+                    Margin = new Thickness(4, 4, 4, 4),
                     CornerRadius = new CornerRadius(3)
                 };
                 var txbNgay = new TextBlock
                 {
                     FontSize = 13,
                     VerticalAlignment = VerticalAlignment.Center,
-                    Margin = new Thickness(6, 0, 0, 0)
+                    Margin = new Thickness(8, 0, 0, 0)
                 };
                 borderNgay.Child = txbNgay;
                 Grid.SetColumn(borderNgay, 2);
                 row.Children.Add(borderNgay);
                 _txbNgayMuons.Add(txbNgay);
 
-                // TextBox Tiền phạt (nhập được)
+                // TextBox Tiền phạt (trắng, nhập được)
                 var borderTien = new Border
                 {
                     BorderBrush = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA)),
                     BorderThickness = new Thickness(1),
                     Background = Brushes.White,
-                    Margin = new Thickness(4, 2, 4, 2),
+                    Margin = new Thickness(4, 4, 4, 4),
                     CornerRadius = new CornerRadius(3)
                 };
                 var txt = new TextBox
@@ -131,11 +142,29 @@ namespace Sprint7
                 row.Children.Add(borderTien);
                 _txtTienPhats.Add(txt);
 
+                // TextBlock Trị giá (read-only, xám)
+                var borderTriGia = new Border
+                {
+                    Background = new SolidColorBrush(Color.FromRgb(0xD0, 0xD0, 0xD0)),
+                    Margin = new Thickness(4, 4, 4, 4),
+                    CornerRadius = new CornerRadius(3)
+                };
+                var txbTriGia = new TextBlock
+                {
+                    FontSize = 13,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(8, 0, 0, 0)
+                };
+                borderTriGia.Child = txbTriGia;
+                Grid.SetColumn(borderTriGia, 4);
+                row.Children.Add(borderTriGia);
+                _txbTriGias.Add(txbTriGia);
+
                 pnlDongGame.Children.Add(row);
             }
         }
 
-        // ==================== NẠP KHÁCH HÀNG (có game đang mượn) ====================
+        // ==================== NẠP KHÁCH HÀNG ====================
         private void NapDanhSachKhachHang()
         {
             try
@@ -144,7 +173,6 @@ namespace Sprint7
                 using (var conn = DataProvider.Instance.GetConnection())
                 {
                     conn.Open();
-                    // Chỉ lấy KH đang có game mượn chưa trả
                     var cmd = new MySqlCommand(
                         @"SELECT DISTINCT k.MaKhachHang, k.HoTen
                           FROM KHACHHANG k
@@ -190,15 +218,10 @@ namespace Sprint7
             }
         }
 
-        // ==================== CHỌN KHÁCH HÀNG → NẠP GAME ĐANG MƯỢN ====================
+        // ==================== CHỌN KH → NẠP GAME ĐANG MƯỢN ====================
         private void CboKhachHang_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Reset hết các dòng
-            foreach (var cbo in _cboGames) { cbo.Items.Clear(); cbo.IsEnabled = false; }
-            foreach (var txb in _txbNgayMuons) txb.Text = "";
-            foreach (var txt in _txtTienPhats) { txt.Text = ""; txt.IsEnabled = false; }
-            txbTongTienPhat.Text = "";
-
+            ResetDongGame();
             if (!(cboKhachHang.SelectedItem is KhachHangItem kh)) return;
 
             try
@@ -207,15 +230,16 @@ namespace Sprint7
                 foreach (var cbo in _cboGames)
                 {
                     cbo.Items.Clear();
-                    foreach (var g in danhSachGame)
-                        cbo.Items.Add(g);
+                    cbo.Items.Add(""); // dòng trắng
+                    foreach (var g in danhSachGame) cbo.Items.Add(g);
+                    cbo.SelectedIndex = 0;
                     cbo.IsEnabled = danhSachGame.Count > 0;
                 }
             }
             catch (Exception ex) { MessageBox.Show("Lỗi nạp game: " + ex.Message, "Lỗi"); }
         }
 
-        // ==================== LẤY DANH SÁCH GAME ĐANG MƯỢN CỦA KH ====================
+        // ==================== LẤY GAME ĐANG MƯỢN ====================
         private List<GameDangMuonItem> LayDanhSachGameDangMuon(int maKhachHang)
         {
             var list = new List<GameDangMuonItem>();
@@ -244,20 +268,20 @@ namespace Sprint7
             return list;
         }
 
-        // ==================== CHỌN GAME → TỰ ĐIỀN NGÀY MƯỢN, BẬT TIỀN PHẠT ====================
+        // ==================== CHỌN GAME → ĐIỀN NGÀY MƯỢN + TRỊ GIÁ ====================
         private void CboGame_SelectionChanged(int idx)
         {
             if (_cboGames[idx].SelectedItem is GameDangMuonItem g)
             {
                 _txbNgayMuons[idx].Text = g.NgayMuon.ToString("dd/MM/yyyy");
+                _txbTriGias[idx].Text = g.TriGia.ToString("N0") + " đ";
                 _txtTienPhats[idx].IsEnabled = true;
-                // Gợi ý mặc định = TriGia
-                if (string.IsNullOrEmpty(_txtTienPhats[idx].Text))
-                    _txtTienPhats[idx].Text = g.TriGia.ToString("N0");
+                _txtTienPhats[idx].Text = g.TriGia.ToString("N0");
             }
-            else
+            else // chọn dòng trắng
             {
                 _txbNgayMuons[idx].Text = "";
+                _txbTriGias[idx].Text = "";
                 _txtTienPhats[idx].Text = "";
                 _txtTienPhats[idx].IsEnabled = false;
             }
@@ -271,7 +295,8 @@ namespace Sprint7
             for (int i = 0; i < SO_DONG; i++)
             {
                 if (_cboGames[i].SelectedItem == null) continue;
-                if (decimal.TryParse(_txtTienPhats[i].Text.Replace(",", "").Trim(), out decimal val) && val > 0)
+                string raw = _txtTienPhats[i].Text.Replace(",", "").Trim();
+                if (decimal.TryParse(raw, out decimal val) && val > 0)
                     tong += val;
             }
             txbTongTienPhat.Text = tong > 0 ? tong.ToString("N0") + " đ" : "";
@@ -280,71 +305,68 @@ namespace Sprint7
         // ==================== TÌM KHÁCH HÀNG ====================
         private void BtnTimKhachHang_Click(object sender, RoutedEventArgs e)
         {
-            // Placeholder – implement nếu cần
+            // Placeholder
         }
 
-        // ==================== LẬP PHIẾU GHI NHẬN MẤT GAME (XỬ LÝ CHÍNH) ====================
+        // ==================== LẬP PHIẾU (XỬ LÝ CHÍNH) ====================
         private void BtnLapPhieu_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // Bước 03: Kiểm tra KH có trong danh sách phiếu mượn
+                // Bước 03: Kiểm tra KH
                 if (!(cboKhachHang.SelectedItem is KhachHangItem kh))
                 { MessageBox.Show("Vui lòng chọn khách hàng!", "Thông báo"); return; }
 
-                // Kiểm tra ngày ghi nhận
+                // Ngày ghi nhận
                 if (dtpNgayGhiNhan.SelectedDate == null)
                 { MessageBox.Show("Vui lòng chọn ngày ghi nhận!", "Thông báo"); return; }
                 DateTime ngayGhiNhan = dtpNgayGhiNhan.SelectedDate.Value;
 
-                // Thu thập danh sách game được chọn
-                var dsDongHopLe = new List<(GameDangMuonItem game, decimal tienPhat)>();
-                var dsMaGameDaChon = new HashSet<int>();
+                // Thu thập dòng hợp lệ
+                var dsDong = new List<(GameDangMuonItem game, decimal tienPhat)>();
+                var daMaChon = new HashSet<int>();
 
                 for (int i = 0; i < SO_DONG; i++)
                 {
                     if (!(_cboGames[i].SelectedItem is GameDangMuonItem g)) continue;
 
-                    // Không cho chọn trùng game
-                    if (dsMaGameDaChon.Contains(g.MaGame))
+                    // Kiểm tra trùng
+                    if (daMaChon.Contains(g.MaGame))
                     { MessageBox.Show($"Game \"{g.TenGame}\" bị chọn trùng!", "Lỗi"); return; }
-
-                    // Bước 06: Kiểm tra mã game thuộc D4
-                    // (đã được đảm bảo vì ComboBox chỉ chứa game đang mượn của KH)
 
                     // Bước 07: Ngày ghi nhận >= Ngày mượn
                     if (ngayGhiNhan < g.NgayMuon)
                     {
                         MessageBox.Show(
-                            $"Ngày ghi nhận phải >= ngày mượn của game \"{g.TenGame}\" ({g.NgayMuon:dd/MM/yyyy})!",
+                            $"Ngày ghi nhận phải >= ngày mượn của \"{g.TenGame}\" ({g.NgayMuon:dd/MM/yyyy})!",
                             "Lỗi");
                         return;
                     }
 
-                    // Bước 09: Tiền phạt >= Trị giá game (QĐ7)
-                    string rawTien = _txtTienPhats[i].Text.Replace(",", "").Trim();
-                    if (!decimal.TryParse(rawTien, out decimal tienPhat) || tienPhat <= 0)
-                    { MessageBox.Show($"Tiền phạt của game \"{g.TenGame}\" không hợp lệ!", "Lỗi"); return; }
+                    // Bước 09: Tiền phạt >= Trị giá (QĐ7)
+                    string raw = _txtTienPhats[i].Text.Replace(",", "").Trim();
+                    if (!decimal.TryParse(raw, out decimal tienPhat) || tienPhat <= 0)
+                    { MessageBox.Show($"Tiền phạt của \"{g.TenGame}\" không hợp lệ!", "Lỗi"); return; }
 
                     if (tienPhat < g.TriGia)
                     {
                         MessageBox.Show(
-                            $"Tiền phạt của \"{g.TenGame}\" ({tienPhat:N0} đ) " +
+                            $"Tiền phạt \"{g.TenGame}\" ({tienPhat:N0} đ) " +
                             $"không được nhỏ hơn trị giá ({g.TriGia:N0} đ)!",
                             "Lỗi");
                         return;
                     }
 
-                    dsMaGameDaChon.Add(g.MaGame);
-                    dsDongHopLe.Add((g, tienPhat));
+                    daMaChon.Add(g.MaGame);
+                    dsDong.Add((g, tienPhat));
                 }
 
-                if (dsDongHopLe.Count == 0)
+                if (dsDong.Count == 0)
                 { MessageBox.Show("Vui lòng chọn ít nhất 1 game bị mất!", "Thông báo"); return; }
 
                 // Bước 10: Tổng tiền phạt
-                decimal tongTienPhat = 0;
-                foreach (var d in dsDongHopLe) tongTienPhat += d.tienPhat;
+                decimal tongTien = 0;
+                foreach (var d in dsDong) tongTien += d.tienPhat;
 
                 using (var conn = DataProvider.Instance.GetConnection())
                 {
@@ -353,13 +375,13 @@ namespace Sprint7
                     {
                         try
                         {
-                            // Bước 11-12: Đọc tiền nợ hiện tại → tính tiền nợ mới
+                            // Bước 11-12: Tiền nợ mới
                             var cmdKHRead = new MySqlCommand(
                                 "SELECT TienNo FROM KHACHHANG WHERE MaKhachHang = @maKH",
                                 conn, trans);
                             cmdKHRead.Parameters.AddWithValue("@maKH", kh.MaKhachHang);
                             decimal tienNoHienTai = Convert.ToDecimal(cmdKHRead.ExecuteScalar());
-                            decimal tienNoMoi = tienNoHienTai + tongTienPhat;
+                            decimal tienNoMoi = tienNoHienTai + tongTien;
 
                             // Bước 13: Lưu PHIEUMAT
                             var cmdPhieu = new MySqlCommand(
@@ -368,10 +390,10 @@ namespace Sprint7
                                   SELECT LAST_INSERT_ID();", conn, trans);
                             cmdPhieu.Parameters.AddWithValue("@maKH", kh.MaKhachHang);
                             cmdPhieu.Parameters.AddWithValue("@ngay", ngayGhiNhan);
-                            cmdPhieu.Parameters.AddWithValue("@tong", tongTienPhat);
+                            cmdPhieu.Parameters.AddWithValue("@tong", tongTien);
                             int maPhieuMat = Convert.ToInt32(cmdPhieu.ExecuteScalar());
 
-                            foreach (var (game, tienPhat) in dsDongHopLe)
+                            foreach (var (game, tienPhat) in dsDong)
                             {
                                 // Lưu CTPHIEUMAT
                                 var cmdCT = new MySqlCommand(
@@ -382,29 +404,29 @@ namespace Sprint7
                                 cmdCT.Parameters.AddWithValue("@tien", tienPhat);
                                 cmdCT.ExecuteNonQuery();
 
-                                // Bước 14: Cập nhật NgayTra trong CTPHIEUMUON
+                                // Bước 14: Cập nhật NgayTra
                                 var cmdTra = new MySqlCommand(
-                                    @"UPDATE CTPHIEUMUON SET NgayTra = @ngay
-                                      WHERE MaCTPhieuMuon = @maCT", conn, trans);
+                                    "UPDATE CTPHIEUMUON SET NgayTra = @ngay WHERE MaCTPhieuMuon = @maCT",
+                                    conn, trans);
                                 cmdTra.Parameters.AddWithValue("@ngay", ngayGhiNhan);
                                 cmdTra.Parameters.AddWithValue("@maCT", game.MaCTPhieuMuon);
                                 cmdTra.ExecuteNonQuery();
 
-                                // Bước 15: Cập nhật TinhTrang = 'Mất' trong CTPHIEUNHAP
+                                // Bước 15: TinhTrang = 'Mất'
                                 var cmdTT = new MySqlCommand(
-                                    @"UPDATE CTPHIEUNHAP SET TinhTrang = N'Mất'
-                                      WHERE MaCTPN = @maGame", conn, trans);
+                                    "UPDATE CTPHIEUNHAP SET TinhTrang = N'Mất' WHERE MaCTPN = @maGame",
+                                    conn, trans);
                                 cmdTT.Parameters.AddWithValue("@maGame", game.MaGame);
                                 cmdTT.ExecuteNonQuery();
                             }
 
                             // Bước 16: Cập nhật TienNo KH
-                            var cmdKHUpdate = new MySqlCommand(
+                            var cmdKHUp = new MySqlCommand(
                                 "UPDATE KHACHHANG SET TienNo = @tienNoMoi WHERE MaKhachHang = @maKH",
                                 conn, trans);
-                            cmdKHUpdate.Parameters.AddWithValue("@tienNoMoi", tienNoMoi);
-                            cmdKHUpdate.Parameters.AddWithValue("@maKH", kh.MaKhachHang);
-                            cmdKHUpdate.ExecuteNonQuery();
+                            cmdKHUp.Parameters.AddWithValue("@tienNoMoi", tienNoMoi);
+                            cmdKHUp.Parameters.AddWithValue("@maKH", kh.MaKhachHang);
+                            cmdKHUp.ExecuteNonQuery();
 
                             trans.Commit();
 
@@ -416,8 +438,8 @@ namespace Sprint7
                                 $"Mã phiếu mất  : {maPhieuMat}\n" +
                                 $"Khách hàng    : {kh.HoTen}\n" +
                                 $"Ngày ghi nhận : {ngayGhiNhan:dd/MM/yyyy}\n" +
-                                $"Số game mất   : {dsDongHopLe.Count}\n" +
-                                $"Tổng tiền phạt: {tongTienPhat:N0} đ",
+                                $"Số game mất   : {dsDong.Count}\n" +
+                                $"Tổng tiền phạt: {tongTien:N0} đ",
                                 "Thành công");
 
                             ResetForm();
@@ -429,16 +451,22 @@ namespace Sprint7
             catch (Exception ex) { MessageBox.Show("Lỗi lập phiếu: " + ex.Message, "Lỗi"); }
         }
 
+        // ==================== RESET DÒNG GAME ====================
+        private void ResetDongGame()
+        {
+            foreach (var cbo in _cboGames) { cbo.Items.Clear(); cbo.SelectedIndex = -1; cbo.IsEnabled = false; }
+            foreach (var txb in _txbNgayMuons) txb.Text = "";
+            foreach (var txt in _txtTienPhats) { txt.Text = ""; txt.IsEnabled = false; }
+            foreach (var txb in _txbTriGias) txb.Text = "";
+            txbTongTienPhat.Text = "";
+        }
+
         // ==================== RESET FORM ====================
         private void ResetForm()
         {
             cboKhachHang.SelectedIndex = -1;
             dtpNgayGhiNhan.SelectedDate = DateTime.Today;
-            txbTongTienPhat.Text = "";
-            foreach (var cbo in _cboGames) { cbo.Items.Clear(); cbo.IsEnabled = false; }
-            foreach (var txb in _txbNgayMuons) txb.Text = "";
-            foreach (var txt in _txtTienPhats) { txt.Text = ""; txt.IsEnabled = false; }
-
+            ResetDongGame();
             NapDanhSachKhachHang();
             CapNhatMaPhieuMatPreview();
         }

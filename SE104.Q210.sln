@@ -15,7 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint5", "Sprint 5\Sprint5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint6", "Sprint6\Sprint6.csproj", "{EB82A535-A62A-4630-BAF8-7DF38473AAAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ssprint7", "Ssprint7\Ssprint7.csproj", "{C8FD728E-56A4-4A28-B5CD-F5019AEA6F04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint7", "Ssprint7\Sprint7.csproj", "{C8FD728E-56A4-4A28-B5CD-F5019AEA6F04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint81", "Sprint81\Sprint81.csproj", "{75182D56-32AB-46C2-87C1-5E3F5AA3E962}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{C8FD728E-56A4-4A28-B5CD-F5019AEA6F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8FD728E-56A4-4A28-B5CD-F5019AEA6F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8FD728E-56A4-4A28-B5CD-F5019AEA6F04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75182D56-32AB-46C2-87C1-5E3F5AA3E962}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75182D56-32AB-46C2-87C1-5E3F5AA3E962}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75182D56-32AB-46C2-87C1-5E3F5AA3E962}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75182D56-32AB-46C2-87C1-5E3F5AA3E962}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

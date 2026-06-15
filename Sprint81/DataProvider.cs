@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
-namespace Sprint7
+namespace Sprint81
 {
     internal class DataProvider
     {

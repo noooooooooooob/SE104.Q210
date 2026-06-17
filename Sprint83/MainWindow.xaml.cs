@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Windows;
 using MySql.Data.MySqlClient;
-using Sprint82; // dùng chung DataProvider
+using Sprint83; // dùng chung DataProvider
 
-namespace Sprint8_2
+namespace Sprint8_3
 {
     public partial class MainWindow : Window
     {
         // ==================== MODEL ====================
-        private class BaoCaoTraTreItem
+        private class KhachHangNoItem
         {
             public int STT { get; set; }
-            public string TenGame { get; set; }
-            public string NgayMuon { get; set; }
-            public string NgayHetHanMuon { get; set; }
-            public string NgayTra { get; set; }
-            public int SoNgayTraTre { get; set; }
+            public string TenKhachHang { get; set; }
+            public string TienNo { get; set; }  // hiển thị dạng có định dạng tiền
         }
 
         // ==================== CONSTRUCTOR ====================
@@ -34,6 +31,7 @@ namespace Sprint8_2
         // ==================== NÚT LẬP BÁO CÁO ====================
         private void BtnLapBaoCao_Click(object sender, RoutedEventArgs e)
         {
+            // --- Validate đầu vào ---
             if (!int.TryParse(txtNgay.Text.Trim(), out int ngay) || ngay < 1 || ngay > 31)
             {
                 MessageBox.Show("Ngày thống kê không hợp lệ! (1 – 31)", "Lỗi");
@@ -50,23 +48,34 @@ namespace Sprint8_2
                 return;
             }
 
-            DateTime ngayThongKe;
-            try { ngayThongKe = new DateTime(nam, thang, ngay); }
-            catch { MessageBox.Show("Ngày thống kê không hợp lệ!", "Lỗi"); return; }
+            // Kiểm tra ngày hợp lệ trong tháng
+            try
+            {
+                var _ = new DateTime(nam, thang, ngay);
+            }
+            catch
+            {
+                MessageBox.Show("Ngày thống kê không hợp lệ!", "Lỗi");
+                return;
+            }
 
             try
             {
-                var danhSach = LayDuLieuBaoCao(ngayThongKe);
+                // Bước 02, 03: truy vấn DB
+                var danhSach = LayDuLieuBaoCao(out decimal tongTienNo);
 
+                // Gán STT
                 for (int i = 0; i < danhSach.Count; i++)
                     danhSach[i].STT = i + 1;
 
+                // Hiển thị
                 icKetQua.ItemsSource = null;
                 icKetQua.ItemsSource = danhSach;
+                txbTongTienNo.Text = tongTienNo.ToString("N0") + " đ";
 
                 if (danhSach.Count == 0)
                     MessageBox.Show(
-                        $"Không có game nào trả trễ tính đến ngày {ngay:D2}/{thang:D2}/{nam}.",
+                        "Không có khách hàng nào đang nợ tiền phạt.",
                         "Thông báo");
             }
             catch (Exception ex)
@@ -77,54 +86,39 @@ namespace Sprint8_2
 
         // ==================== TRUY VẤN DB ====================
         /*
-         * Theo slide Sprint 8.2 - Bước 04:
-         * Tạo D4 = lọc theo điều kiện:
-         *   - MaPhieuMuon(D2) tương ứng MaPhieuMuon(D3)
-         *   - NgayTra(D3) tồn tại (NOT NULL)           → đã trả rồi
-         *   - NgayTra(D3) <= ngayThongKe               → trả trước/đúng ngày thống kê
-         *   - NgayTra(D3) > NgayHetHanMuon(D2)         → trả trễ
-         * Bước 06: SoNgayTraTre = DATEDIFF(NgayTra, NgayHetHanMuon)
-         * Bước 07: JOIN CTPHIEUNHAP để lấy TenGame
+         * Thuật toán (theo slide):
+         * Bước 02: Đọc D2 (Danh sách Khách hàng) từ CSDL Khách hàng.
+         * Bước 03: Tạo D3 (Danh sách Khách hàng đang nợ gồm:
+         *          Mã khách hàng, Tiền nợ hiện tại) với điều kiện lọc:
+         *          "Tiền nợ hiện tại" của khách hàng đó > 0.
+         * Bước 04: Kết thúc.
          */
-        private List<BaoCaoTraTreItem> LayDuLieuBaoCao(DateTime ngayThongKe)
+        private List<KhachHangNoItem> LayDuLieuBaoCao(out decimal tongTienNo)
         {
-            var list = new List<BaoCaoTraTreItem>();
+            var list = new List<KhachHangNoItem>();
+            tongTienNo = 0;
 
             using (var conn = DataProvider.Instance.GetConnection())
             {
                 conn.Open();
 
                 var cmd = new MySqlCommand(
-                    @"SELECT
-                        g.TenGame,
-                        pm.NgayMuon,
-                        pm.NgayHetHanMuon,
-                        ct.NgayTra,
-                        DATEDIFF(ct.NgayTra, pm.NgayHetHanMuon) AS SoNgayTraTre
-                      FROM CTPHIEUMUON ct
-                      JOIN PHIEUMUON   pm ON pm.MaPhieuMuon = ct.MaPhieuMuon
-                      JOIN CTPHIEUNHAP g  ON g.MaCTPN       = ct.MaGame
-                      WHERE ct.NgayTra IS NOT NULL
-                        AND ct.NgayTra <= @ngayThongKe
-                        AND ct.NgayTra >  pm.NgayHetHanMuon
-                      ORDER BY SoNgayTraTre DESC", conn);
-
-                cmd.Parameters.AddWithValue("@ngayThongKe", ngayThongKe.ToString("yyyy-MM-dd"));
+                    @"SELECT HoTen, TienNo
+                      FROM KHACHHANG
+                      WHERE TienNo > 0
+                      ORDER BY TienNo DESC", conn);
 
                 using (var r = cmd.ExecuteReader())
                 {
                     while (r.Read())
                     {
-                        var ngayMuon = Convert.ToDateTime(r["NgayMuon"]);
-                        var ngayHetHanMuon = Convert.ToDateTime(r["NgayHetHanMuon"]);
-                        var ngayTra = Convert.ToDateTime(r["NgayTra"]);
-                        list.Add(new BaoCaoTraTreItem
+                        decimal tienNo = Convert.ToDecimal(r["TienNo"]);
+                        tongTienNo += tienNo;
+
+                        list.Add(new KhachHangNoItem
                         {
-                            TenGame = r["TenGame"].ToString(),
-                            NgayMuon = ngayMuon.ToString("dd/MM/yyyy"),
-                            NgayHetHanMuon = ngayHetHanMuon.ToString("dd/MM/yyyy"),
-                            NgayTra = ngayTra.ToString("dd/MM/yyyy"),
-                            SoNgayTraTre = Convert.ToInt32(r["SoNgayTraTre"])
+                            TenKhachHang = r["HoTen"].ToString(),
+                            TienNo = tienNo.ToString("N0") + " đ"
                         });
                     }
                 }

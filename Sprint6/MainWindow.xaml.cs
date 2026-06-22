@@ -74,14 +74,10 @@ namespace Sprint6
                 {
                     conn.Open();
                     var cmd = new MySqlCommand(
-                        "SELECT AUTO_INCREMENT FROM information_schema.TABLES " +
-                        "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'PHIEUTHUTIEN'", conn);
+                        "SELECT IFNULL(MAX(MaPhieuThuTien), 0) + 1 FROM PHIEUTHUTIEN", conn);
                     object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                    {
-                        txbMaPhieuThu.Text = Convert.ToInt64(result).ToString();
-                        txbMaPhieuThu.Foreground = Brushes.Gray;
-                    }
+                    txbMaPhieuThu.Text = Convert.ToInt64(result).ToString();
+                    txbMaPhieuThu.Foreground = Brushes.Gray;
                 }
             }
             catch

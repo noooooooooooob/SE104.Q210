@@ -385,14 +385,10 @@ namespace Sprint4
                 {
                     conn.Open();
                     var cmd = new MySqlCommand(
-                        "SELECT AUTO_INCREMENT FROM information_schema.TABLES " +
-                        "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'PHIEUMUON'", conn);
+                        "SELECT IFNULL(MAX(MaPhieuMuon), 0) + 1 FROM PHIEUMUON", conn);
                     object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                    {
-                        txbMaPhieuMuon.Text = Convert.ToInt64(result).ToString();
-                        txbMaPhieuMuon.Foreground = System.Windows.Media.Brushes.Gray;
-                    }
+                    txbMaPhieuMuon.Text = Convert.ToInt64(result).ToString();
+                    txbMaPhieuMuon.Foreground = System.Windows.Media.Brushes.Gray;
                 }
             }
             catch

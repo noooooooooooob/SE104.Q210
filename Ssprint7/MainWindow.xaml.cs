@@ -201,14 +201,10 @@ namespace Sprint7
                 {
                     conn.Open();
                     var cmd = new MySqlCommand(
-                        "SELECT AUTO_INCREMENT FROM information_schema.TABLES " +
-                        "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'PHIEUMAT'", conn);
+                        "SELECT IFNULL(MAX(MaPhieuMat), 0) + 1 FROM PHIEUMAT", conn);
                     object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                    {
-                        txbMaPhieuMat.Text = Convert.ToInt64(result).ToString();
-                        txbMaPhieuMat.Foreground = Brushes.Gray;
-                    }
+                    txbMaPhieuMat.Text = Convert.ToInt64(result).ToString();
+                    txbMaPhieuMat.Foreground = Brushes.Gray;
                 }
             }
             catch

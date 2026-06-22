@@ -20,7 +20,7 @@ namespace Sprint6
             }
         }
 
-        private string connectionString = "Server=zephyr.proxy.rlwy.net;Port=58816;Database=railway;Uid=root;Pwd=gYvXqmHUpZYSPXozPtWHmcxTPfArOoyJ;";
+        private string connectionString = "Server=reseau.proxy.rlwy.net;Port=23164;Database=railway;Uid=root;Pwd=DdVPTIkinniPfxvdqlvOAKeKNqpzQAYt;";
 
         public MySqlConnection GetConnection()
         {

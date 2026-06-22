@@ -416,14 +416,10 @@ namespace Sprint5
                 {
                     conn.Open();
                     var cmd = new MySqlCommand(
-                        "SELECT AUTO_INCREMENT FROM information_schema.TABLES " +
-                        "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'PHIEUTRA'", conn);
+                        "SELECT IFNULL(MAX(MaPhieuTra), 0) + 1 FROM PHIEUTRA", conn);
                     object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                    {
-                        txbMaPhieuTra.Text = Convert.ToInt64(result).ToString();
-                        txbMaPhieuTra.Foreground = Brushes.Gray;
-                    }
+                    txbMaPhieuTra.Text = Convert.ToInt64(result).ToString();
+                    txbMaPhieuTra.Foreground = Brushes.Gray;
                 }
             }
             catch
